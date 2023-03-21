@@ -48,7 +48,7 @@ function TestSplitting(props){
                     <FormControlLabel label="Input a value for test ratio" control={<input type="number" className='inputNumber' size="small"/>}
                      value={valueForm.tho_range} onChange={(event)=>setValueForm({...valueForm,tho_range:event.target.value})} />  
                 
-                 </FormGroup> ): (<></>)}     
+                 </FormGroup> ): (<></>)}   
           </FormGroup>
         
         </div>
