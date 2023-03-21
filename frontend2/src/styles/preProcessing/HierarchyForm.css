@@ -1,0 +1,116 @@
+.hier_container{
+    height: 100%;
+    width: 100%;
+}
+.hier_randSeed{
+    margin-top: 4%;
+    margin-left: 20%;
+    width: 60%;
+    height: 65%;
+    border-style: solid;
+    border-color: rgb(198, 198, 198);
+    border-width: 4px;
+    border-radius: 15px;
+    animation: fadeIn 1s;
+}
+.rndSeedTitHier{
+    font-size: 40px;
+    margin-top: 4%;
+    background-color: white;
+    text-align: center;
+    color: rgb(0, 179, 255);
+    text-shadow: .05em .05em 0 rgb(60, 70, 75);
+}
+.randDescrHier{
+    margin-top: 3%;
+    text-align: center;
+    font-size: 24px;
+    color: rgb(60, 70, 75);
+}
+.randSeedHier{
+    height: 8%;
+    width: 15%;
+    margin-left: 42.5%;
+    margin-top: 1%;
+    border-width: 2px;
+    border-radius: 3px;
+    border-style: solid;
+    border-color: rgb(198, 198, 198);
+    font-size: 22px;
+    font-weight: bold;
+    color:rgb(60, 70, 75) ;
+}
+.descrHier{
+    margin-top: 3%;
+    text-align: center;
+    font-size: 24px;
+    color: rgb(60, 70, 75);
+}
+.hierFile{
+    border-width: 2px;
+    border-radius: 3px;
+    border-style: solid;
+    border-color: rgb(198, 198, 198);
+    font-size: 18px;
+    font-weight: bold;
+    color:rgb(60, 70, 75) ;
+    margin-top: 3%;
+}
+.hierFile:hover{
+    cursor: pointer;
+}
+.hier_sect{
+    text-align: center;
+    font-size: xx-large;
+}
+.btt_change_hier{
+    width: 9%;
+    height: 8%;
+    border-style:double;
+    border-radius: 10px;
+    border-width: 4px;
+    border-color: orange;
+    background-color: aliceblue;
+    border-style: solid;
+    font-size:20px;
+    font:bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: darkorange;
+    margin-top: 1%;
+    margin-left: 30%;
+}
+.btt_change_hier:hover{
+    box-shadow: rgba(105, 165, 196, 0.5) 0 1px 30px;
+    transition-duration: .1s;
+    cursor:pointer;
+    background-color:orange;
+   /* background-image: linear-gradient(92.88deg, #6cb2b6 9.16%, #4faab4 43.89%, #28a8b6 64.72%); */
+    color: white;
+}
+.btt_run_hier{
+    position: absolute;
+    text-align: center;
+    position: absolute;
+    width: 22%;
+    height: 7%;
+    border-style:double;
+    border-radius: 10px;
+    border-width: 4px;
+    border-color:green;
+    background-color: aliceblue;
+    border-style: solid;
+    font-size:25px;
+    font:bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color:darkgreen;
+    margin-top: 5%;
+    margin-left: 0.7%;
+}
+.btt_run_hier:hover{
+    box-shadow: rgba(105, 165, 196, 0.5) 0 1px 30px;
+    transition-duration: .1s;
+    cursor:pointer;
+    background-color:green;
+   /* background-image: linear-gradient(92.88deg, #6cb2b6 9.16%, #4faab4 43.89%, #28a8b6 64.72%); */
+    color: white;
+}

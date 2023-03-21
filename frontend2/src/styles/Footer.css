@@ -1,0 +1,28 @@
+.foot_container{
+    position: relative;
+    margin-bottom: 0%;
+    height: 50px;
+    width: 100vw;
+    margin-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(222, 222, 237);
+    border-style: solid;
+    border-top: 3px;
+    border-left: 0; 
+    border-right: 0;
+    border-bottom: 0;
+    border-color: grey;
+}
+.frontCredit{
+    width: 80%;
+    height:40%;
+    text-align: center;
+    font-weight: bold;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(70, 184, 237);
+}

@@ -1,0 +1,31 @@
+.bar_container{
+    margin-top:10px;
+    width: 95%;
+    height: 10px;
+    background-color: rgb(182, 182, 182);
+    border-radius: 4px;
+    align-items: center;
+    align-content: center;
+}
+/* .bar_status{
+    height:20px;
+    border-radius: 4px;
+    background-color: rgb(110, 197, 255);
+    transition-duration: 1s;
+} */
+
+.two{
+    width:50%;
+    height:10px;
+    border-radius: 4px;
+    background-color: rgb(0, 179, 255);
+    transition:all 1s;
+}
+
+.five{
+    width:20%;
+    height:10px;
+    border-radius: 4px;
+    background-color: rgb(0, 179, 255);
+    transition:all 1s;
+}

@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  font-family:'Lato';
+  resize: both;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transform: scale(100%);
+  transform-origin: 0% 0% 0px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

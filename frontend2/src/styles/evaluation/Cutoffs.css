@@ -1,0 +1,57 @@
+.cutTit{
+text-align: center;
+font-size: 50px;
+color: rgb(0, 179, 255);
+text-shadow: .05em .05em 0 rgb(60, 70, 75);
+margin-top: 3%;
+}
+.cut_div{
+text-align: center;
+height: 20vh;
+}
+.nInput{
+    height: 25%;
+    width: 20%;
+    font-size: 20px;
+}
+.btt_div_cut{
+height: 22vh;
+}
+.cutoff_Add{
+    border-color: rgb(17, 201, 17);
+    color:darkgreen;
+    height: 25%;
+    width: 20%;
+    font-size: 120%;
+    margin-top: 10%;
+    text-align: center;
+    margin-left: 25%;
+    border-radius: 20px;
+    border-width: 3px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.cutoff_Add:hover{
+    cursor:pointer;
+    background-color:rgb(17, 201, 17);
+    color: white;
+    border-style: none;
+}
+.cutoff_Reset{
+    border-color: rgb(201, 54, 17);
+    color:darkred;
+    height: 25%;
+    width: 20%;
+    font-size: 120%;
+    text-align: center;
+    margin-left: 10%;
+    border-radius: 20px;
+    border-width: 3px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.cutoff_Reset:hover{
+    cursor:pointer;
+    background-color:rgb(201, 54, 17);
+    color: white;
+    border-style: none;
+}
