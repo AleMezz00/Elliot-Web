@@ -34,7 +34,6 @@ function ValidationSplitting(props){
         </Box>
 
         <Box>
-        
           <FormGroup sx={{alignItems:'center'}}>
              <FormControlLabel label="Temporal Hold-Out" control={<Checkbox/>} onClick={()=>setTemporal(!checkTemporal)}
              checked={checkForm.tho2} onChange={(event)=>setCheckForm({...checkForm, tho2:event.target.checked})}/>
@@ -47,7 +46,6 @@ function ValidationSplitting(props){
                 
                  </FormGroup> ): (<></>)}     
           </FormGroup>
-        
         </Box>
 
 
