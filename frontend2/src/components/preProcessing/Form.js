@@ -4,8 +4,11 @@ import DatasetForm from './DatasetForm.js';
 import HierarchyForm from './HierarchyForm.js';
 import FixedForm from './FixedForm.js'
 import '../../styles/preProcessing/Form.css'
+import { Box, Button, Container, FormControl, FormLabel, Paper } from '@mui/material';
 
 function Form(){
+
+
 
     const[step,setStep]=useState(0);
     const[preStep, setPreStep]=useState(false);
@@ -21,43 +24,51 @@ function Form(){
 
    if(!preStep){
     return(
-      <div className='formContainer'>
-        <div className='intro_vis1'>
-           <h1 className='introTit'>Welcome !</h1>
-           <h2 className='introDesc'>Here you can choose among 3 different loading strategies,
-             8 prefiltering approaches and several splitting strategies.</h2>
-          
-            <button className='start' onClick={()=>setPreStep(true)}>Let's start</button>
-        </div>        
-      </div>
+
+        <Container>
+            <Box>
+                <FormControl>
+                   <FormLabel component='legend'>Welcome</FormLabel> 
+                   <FormLabel component='legend'>Here you can choose among 3 different loading strategies,
+                    8 prefiltering approaches and several splitting strategies.</FormLabel>
+                </FormControl>
+
+                <Button type='button' onClick={()=>setPreStep(true)}> Let's start !</Button>
+                
+            </Box>
+        </Container>
     );
    }
 
    if (preStep){
     if(!dataset && !fixed && !hierarchy){
+
       return(
-        <div className='formContainer'>
-          <div className='intro_vis2'>
-          <div id='strategy'>
-          <h2 className='titleSt'>Loading strategy</h2>
-          </div>
-          <button className='btt_data' onClick={()=>setDataset(true)} >Dataset</button>
-          <button className='btt_fix'onClick={()=>setFixed(true)}>Fixed</button>
-          <button className='btt_hier'onClick={()=>setHierarchy(true)}>Hierarchy</button>
-          </div>
-        </div>
+        
+        <Container>
+            <Box>
+                <FormControl>
+                   <FormLabel component='legend'>Loading strategies</FormLabel> 
+                   <Button type='button' onClick={()=>setDataset(true)}> Dataset</Button>
+                   <Button type='button' onClick={()=>setFixed(true)}> Fixed</Button>
+                   <Button type='button' onClick={()=>setHierarchy(true)}> Hierarchy</Button>
+                </FormControl>
+   
+            </Box>
+        </Container>
+      
       );
     } else if(dataset && !fixed && !hierarchy){
       return(
-       <DatasetForm step={step} setStep={setStep}/>
+       <DatasetForm step={step} setStep={setStep} setPreStep={setPreStep}/>
       );
     } else if(!dataset && fixed && !hierarchy){
       return(
-       <FixedForm step={step} setStep={setStep}/>
+       <FixedForm step={step} setStep={setStep} setPreStep={setPreStep}/>
       );
     } else if(!dataset && !fixed && hierarchy){
       return(
-       <HierarchyForm step={step} setStep={setStep}/>
+       <HierarchyForm step={step} setStep={setStep} setPreStep={setPreStep}/>
       );
     }
   }

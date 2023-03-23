@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Progressbar from '../Progressbar.js';
 import '../../styles/preProcessing/DataSetForm.css'
 import Form from './Form.js';
-import { Box, Checkbox, FilledInput, FormControlLabel, FormGroup, Input } from '@mui/material';
+import { Box, Button, Checkbox, Container, FilledInput, FormControlLabel, FormGroup, FormLabel, Input } from '@mui/material';
 import PreFiltering from './PreFiltering.js';
 import TestSplitting from './TestSplitting.js';
 import ValidationSplitting from './ValidationSplitting.js';
@@ -65,11 +65,16 @@ function DatasetForm(props){
   const [checkData,setCheckData]=useState(defaultCheckState);
   const [paramData,setParamData]=useState(defaultParamState);
   const [valueData,setValueData]=useState(defaultValueState);
+  
+
+  const step = props.step;
+ 
 
 
 
   const next=()=>{
       props.setStep(props.step+1);
+      
   }
       
   const previous=()=>{
@@ -107,116 +112,114 @@ function DatasetForm(props){
       }else document.getElementById('disclaimer').innerHTML='Go back and fill required fields';
     }
 
-    
-      if(props.step===0){
-        return(
-          <div className='datSet_container'>
+    return(
+        <Container>
             <form action="" method="POST" encType="multipart/form-data" id="form_data">
-              <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} readOnly hidden/>
-                <div className='randSeed_0'>
-                <div className='barra'><Progressbar step={props.step} initStyle='twenty%'/></div>
-                  <h2 className='randSeedTit'>Random seed</h2> 
-                  <h3 className='randDesc'>set a random seed for the preparation of operations:</h3>
-                  <input type='number' name='random_seed' className='randValue' value={valueData.seed} onChange={(event)=>setValueData({...valueData, seed:event.target.value})}/>
-                  <h2 className='binarTit'>Dataset Binarization</h2> 
-                  <div className='check_div'>
-                    <FormControlLabel control={<Checkbox/>} label="Check if you want to binarize the dataset" className='check_label' checked={checkData.binarize} onChange={(event)=>setCheckData({...checkData, binarize:event.target.checked})}/>
-                  </div>
-                  </div>
-                  <button className='btt_next_Data' onClick={next}>Next</button>
-                  <button className='btt_reset_Data' onClick={reset}>Reset input parameters</button>
-                  <button className='btt_change_Data' onClick={change}> Change strategy</button> 
-            </form>
-          </div>
-        );
-      }
+            <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} readOnly hidden/>
+               {step===0 &&
+                <Box>
+                    <Progressbar step={props.step} initStyle='twenty%'/>
+                    <FormGroup>
+                        <FormLabel>Random Seed</FormLabel>
+                        <Input placeholder="Set a random seed "  required sx={{ mb: 1, fontSize: 'var(--joy-fontSize-sm)' }}
+                        value={valueData.seed} onChange={(event)=>setValueData({...valueData, seed:event.target.value})} />
+                        <FormLabel>Dataset Binarization</FormLabel>
+                        <FormControlLabel control={<Checkbox/>} label="Check if you want to binarize the dataset" className='check_label' checked={checkData.binarize} onChange={(event)=>setCheckData({...checkData, binarize:event.target.checked})}/>
+                        
 
-      if(props.step===1){
-        return(
-          <div className='datSet_container'>
-          <div className='randSeed_1'>
-          
-          <div className='barra'><Progressbar step={props.step} initStyle='twenty%'/></div>
-            <form action="" method="POST" encType="multipart/form-data" id="form_data">
-              <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} readOnly hidden/>
-              <div className='check_div'>
-                 <PreFiltering checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData}/>
-              </div>
-              </form>
-            </div>
-            <button className='btt_next_Data' onClick={next}>Next</button>
-            <button className='btt_reset_Data' onClick={reset}>Reset input parameters</button>
-            <button className='btt_prev_Data' onClick={previous}>Previous</button>
-            <button className='btt_change_Data' onClick={change}> Change strategy</button>
-               
-          </div>
-        );
-      }
+                        <Button className='btt_next_Data' onClick={next}>Next</Button>
+                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
+                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
 
-      if(props.step===2){
-            return(
-              <div className='datSet_container'>
-              <div className='randSeed_2'>
-              <div className='barra'><Progressbar step={props.step} initStyle='twenty%'/></div>
-                <form action="" method="POST" encType="multipart/form-data" id="form_data">
-                  <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} readOnly hidden/>
-                  <div>
-                      <TestSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
+                    </FormGroup>
+                    
+                </Box> 
+                }
+
+
+                {step===1 &&
+                <Box>
+                    <Progressbar step={props.step} initStyle='twenty%'/>
+                    <FormGroup>
+                        <PreFiltering checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData}/>
+
+                        <Button className='btt_next_Data' onClick={next}>Next</Button>
+                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
+                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
+                        <Button className='btt_prev_Data' onClick={previous}>Previous</Button>
+
+                    </FormGroup>
+                    
+                </Box> 
+                }  
+
+                
+                {step===2 &&
+                <Box>
+                    <Progressbar step={props.step} initStyle='twenty%'/>
+                    <FormGroup>
+                        <TestSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
                                 paramData={paramData} setParamData={setParamData} />
-                  </div>
-                </form>
-                </div>
-                <button className='btt_next_Data' onClick={next}>Next</button>
-                <button className='btt_reset_Data' onClick={reset}>Reset input parameters</button>
-                <button className='btt_prev_Data' onClick={previous}>Previous</button>
-                <button className='btt_change_Data' onClick={change}> Change strategy</button>
-              </div>
-            );
-          }
+                        <Button className='btt_next_Data' onClick={next}>Next</Button>
+                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
+                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
+                        <Button className='btt_prev_Data' onClick={previous}>Previous</Button>
 
-        if(props.step===3){
-            return(
-              <div className='datSet_container'>
-                <div className='randSeed_3'>
-              <div className='barra'><Progressbar step={props.step} initStyle='twenty%'/></div>
-                <form action="" method="POST" encType="multipart/form-data" id="form_data">
-                  <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} readOnly hidden/>
-                    <ValidationSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
+                    </FormGroup>
+                    
+                </Box> 
+                }  
+
+                {step===3 &&
+                <Box>
+                    <Progressbar step={props.step} initStyle='twenty%'/>
+                    <FormGroup>
+                        <ValidationSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
                                  paramData={paramData} setParamData={setParamData}/>
-                </form>
-                </div>
-                <button className='btt_next_Data' onClick={next}>Next</button>
-                <button className='btt_reset_Data' onClick={reset}>Reset input parameters</button>
-                <button className='btt_prev_Data' onClick={previous}>Previous</button>
-                <button className='btt_change_Data' onClick={change}> Change strategy</button>
-              </div>
-            );
-          }
+                        <Button className='btt_next_Data' onClick={next}>Next</Button>
+                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
+                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
+                        <Button className='btt_prev_Data' onClick={previous}>Previous</Button>
 
-          if(props.step==4){
-            return(
-              <div className='datSet_container'>
-                <div className='randSeed_4'>
-                <div className='barra'><Progressbar step={props.step} initStyle='twenty%'/></div>
-                  <h2 className='upTitle'>Dataset upload</h2>
-                  <h3 className='upDescription'>Upload dataset in <strong>.tvs</strong> format </h3>
-                  <div className='up_file_div'>
-                    <input type='file' name="dataset_file" id="dataset_file" className="form-control_Data" accept=".tsv" required/>
-                  </div>
-                </div>
-                <button className='btt_reset_Data' onClick={reset}>Reset input parameters</button>
-                <button className='btt_prev_Data' onClick={previous}>Previous</button>
-                <button className='btt_change_Data' onClick={change}> Change strategy</button>  
-                  <input id='dataset_submit' value='Preprocess with Dataset strategy' className='btt_run_Data' onClick={datasetSubmit}/>      
-              </div> 
-            );
-          }
-            
-      if(props.step===5){
-        return(
-          <Form/>
-        );
-      }
+                    </FormGroup>
+                    
+                </Box> 
+                } 
+
+                {step===4 &&
+                <Box>
+                    <Progressbar step={props.step} initStyle='twenty%'/>
+                    <FormGroup>
+
+                        <FormLabel> dataset upload</FormLabel>
+                        
+                        <FormLabel> Upload dataset in <strong>.tvs</strong> format  </FormLabel>
+                        <Input type='file' name="dataset_file" id="dataset_file"  accept=".tsv" required/>
+          
+                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
+                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
+                        <Button className='btt_prev_Data' onClick={previous}>Previous</Button>
+
+                        <Button type='submit' onClick={datasetSubmit}>Preprocess with Dataset strategy</Button>
+
+                    </FormGroup>
+                    
+                </Box> 
+                } 
+
+                {step===5 &&
+                <Box>
+                    <Form/>
+                    
+                </Box> 
+                } 
+            </form>
+                
+        
+        </Container>
+        
+    )
+
 }
 
 export default DatasetForm;
