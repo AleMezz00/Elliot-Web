@@ -47,6 +47,7 @@ def preprocess():
 
 # API usato per effettuare il preprocessing con una richiesta asincrona
 @app.route("/api/v1/preprocessing-json", methods=['GET', 'POST'])
+@cross_origin()
 def preprocess_json():
     # request deve essere passato ad una funzione che generi un dizionario contenente le informazioni che ci servono
     if request.method == 'POST':

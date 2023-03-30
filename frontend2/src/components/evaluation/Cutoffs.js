@@ -1,5 +1,6 @@
+import { Box, ButtonGroup, Paper, Typography,Button, Input } from '@mui/material';
 import React from 'react';
-import '../../styles/evaluation/Cutoffs.css'
+
 
 function Cutoffs(){
     
@@ -32,18 +33,62 @@ function Cutoffs(){
 
 
     return(
-        <>
-         <h2 className='cutTit'>Cutoffs</h2>
-          <div className='cut_div'>
-            <input type='number' id='n_k' name='n_k' min='1' placeholder='Input number of cutoffs'
-               required className='nInput'/>
-            </div>     
-            <div className='btt_div_cut'>  
-            <button className='cutoff_Add' onClick={cutoffAdd}>Add field</button>
-            <button className='cutoff_Reset' onClick={cutoffReset}>Reset fields</button> 
-            </div>       
+          <Paper elevation={20} sx={{borderRadius:'20px', height:'600px', width:'600px',mt:5, ml:34.7}}>
+            <Typography variant='h2'
+                            sx={{
+                                textAlign:'center',
+                                mb:2,
+                                color:'rgb(0, 179, 255)',
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>Cutoffs</Typography>
+
+            <Typography variant='h5' sx={{textAlign:'center', mb:2}}>Set a number of cutoffs</Typography>
+            <Box sx={{textAlign:'center', mb:3}}>
+              <Input type='number' id='n_k' name='n_k' min='1' placeholder='Input number of cutoffs'
+                  className='nInput'/>
+            </Box>
+
           
-        </>
+
+            <Box sx={{textAlign:'center'}}>
+              <ButtonGroup size='large'>
+                <Button type='button' variant='contained' onClick={cutoffAdd}  
+                                sx={{
+                                mx:8,
+                                width:150,
+                                height:40,
+                                fontSize:'13px',
+                                borderRadius:'20px',
+                                color: 'white',
+                                bgcolor: 'rgb(17, 201, 17)',
+                                '&:hover':{
+                                  bgcolor: 'rgb(17, 201, 17)',
+                                  color: 'white',
+                                }
+                                }}>Add field</Button>
+                <Button type='button' variant='contained' onClick={cutoffReset} 
+                                sx={{
+                                mx:8,
+                                width:150,
+                                height:40,
+                                fontSize:'13px',
+                                borderRadius:'20px',
+                                color: 'white',
+                                bgcolor: 'rgb(201, 54, 17)',
+                                '&:hover':{
+                                  bgcolor: 'rgb(201, 54, 17)',
+                                  color: 'white',
+                                }
+                                }}>Reset fields</Button> 
+            </ButtonGroup>
+            </Box>     
+            
+              <Box sx={{textAlign:'center', mt:3}}>
+             <Box id='cutoffField' className='cutoffsEnabled' /> 
+            </Box>
+                  
+            
+          </Paper>
     );
 }
 

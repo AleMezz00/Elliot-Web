@@ -1,17 +1,20 @@
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, Select, Typography,Box, MenuItem, Input, Container, Card, Paper, } from '@mui/material';
 import React,{useState} from 'react';
 import Models from  '../../json/models2.json';
-import '../../styles/recommendation/AddForm.css'
 
-function AddForm(){
+function AddForm(props){
 
     const[moduleOptions,setModuleOptions]=useState([]);
     const[moduleParameters,setModuleParameters]=useState([]);
     const[kChecked,setkChecked]=useState(false);
 
+    const [module,setModule]=useState('');
+    const [parameter,setPar]=useState('');
+
     const setModuleTypes=(event)=>{
         let options=[];
         let selected=event.target.value;
+        setModule(selected)
         Models.map(element=>{
             if(element.id===selected){
                 options=element.models;
@@ -24,6 +27,7 @@ function AddForm(){
     const setTypeParameters=(event)=>{
         let parameters=[];
         let type=event.target.value;
+        setPar(type);
         moduleOptions.map(option=>{
             if(option.id===type){
                 parameters=option.parameters;
@@ -33,80 +37,79 @@ function AddForm(){
         setModuleParameters(parameters);
     }
 
-    return(<>
-            <div className='modelSelect'>
-                <label forhtml="loading_rec_model" className='modSect'>Select Recommendation Model</label>
-                <select name="loading_rec_model" id="loading_rec_model" className="form-control-rec" onChange={setModuleTypes} required>
-                    <option value='null' >--- Select one ---</option>
+    return(
+        <Container>
+        <Paper elevation={20} sx={{borderRadius:'20px', height:'670px', width:'420px',ml:8,mb:3}}>
+            <Box sx={{textAlign:'center',mt:1}} >
+                <Typography variant='h6' >Select Recommendation Model</Typography>
+                
+                <Select name="loading_rec_model" id="loading_rec_model" onChange={setModuleTypes} value={module} label='select one' required>
                     {Models.map(model =>{
-                        return(<option key={model.id} value={model.id}>{model.id}</option>);
+                        return(<MenuItem key={model.id} value={model.id}>{model.id}</MenuItem>);
                     })}
-                </select>
-                <select name="loading_model" id="loading_model" className="form-control-rec" onChange={setTypeParameters} required>
-                    <option value='null' >--- Select one ---</option>
-                        {moduleOptions.map(option=>{
-                            return(<option key={option.id} value={option.id}>{option.name}</option>);
-                        })
-                       }
-                </select>
-            </div>
+                </Select>
 
-            <div className='fileInputSect'>
-                <div className='fileSpace'>
-                    <span className='spanFile'>Test file</span>
-                    <input type='file' id="test_file" name="test_file" className="formFileIn" required />
-                </div>
-                <div className='fileSpace'>
-                    <span className='spanFile'>Train file</span>
-                    <input type='file' id="train_file" name="train_file" className="formFileIn" required />
-                </div>
-            </div>
+                <Select name="loading_model" id="loading_model" onChange={setTypeParameters} value={parameter} label='select the parameter'required>
+                    {moduleOptions.map(option=>{
+                        return(<MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>);
+                    })
+                    }
+                </Select>     
+            </Box>
 
-            <div className='topKSect'>
-                <FormGroup>
-                    <FormControlLabel label="Top K" control={<Checkbox/>} onChange={()=>setkChecked(!kChecked)} className='checkInputRec'/>
+            <Box sx={{textAlign:'center'}}>
+                <Typography variant='h6' sx={{mt:1}}> Test File</Typography>
+                <Input  type='file' id="test_file" name="test_file" required />
+
+                <Typography variant='h6' sx={{mt:1}}>Train file</Typography>
+                <Input type='file' id="train_file" name="train_file" required />
+            </Box>
+
+            <Box sx={{mt:1}}>
+            <FormGroup sx={{alignItems:'center'}}> 
+                    <FormControlLabel label="Top K" control={<Checkbox/>} onChange={()=>setkChecked(!kChecked)}/>
                     {kChecked ? (
-                        <FormControlLabel label=" Input a top K value" control={<input type="number" className='inputNumber' size="small"/>}/>
-                    ): (<></>)}   
+                        <FormControlLabel label=" Input a top K value" control={<input type="number"/>}/>
+                    ): (<></>)}     
                 </FormGroup>
-             </div>
+            </Box>
 
-            
-            <div className={moduleParameters.length > 0?'parametersSect':'hide'}>
-              <h2>Parameters</h2>
+            <Box sx={{textAlign:'center', mt:1}}>
+                <Typography variant='h5' 
+                        sx={{ color:'rgb(0, 179, 255)',
+                            textShadow:".05em .05em 0 rgb(60, 70, 75)"}}>
+                    <strong>Parameters</strong></Typography>
+
                 {moduleParameters.map((value,index)=>{
                     return(<>
-                    <div className='parameterCard'>
-                      <label forhtml={value} className='paramLabel'>{value}</label>
-                      <input type='text' key={index} id={value} name={value} className='textK' /><br/>
-                    </div>
+                    <Box >
+                      <Typography forhtml={value} >{value}</Typography>
+                      <Input type='text' key={index} id={value} name={value}/><br/>
+                      </Box>
                     </>
                     );
                 })}
-            </div>
+            </Box>
 
-            <div className='metaParamSect'>
+            <Box sx={{textAlign:'center'}}>
                 <FormControlLabel control={<Checkbox/>} label=' Save weights' id='save_weights'/>
-                <div className='parameterCard'>
-                    <label forhtml='validation_metric' className='tInLab'>Validation metric</label>
-                    <input type='text' id='validation_metric' name='validation_metric' palceholder='Input a value for validation metric' className='textInput' />
-                </div>
-                <div className='parameterCard'>
-                    <label forhtml='validation_rate' className='tInLab'>Validation Rate</label>
-                    <input type='number' id='validation_rate' name='validation_rate' palceholder='Input a value for validation rate' className='textInput' />
-                </div>
-                <div className='parameterCard'>
-                    <label forhtml='hyper_opt_alg' className='tInLab'>Hyper opt alg</label>
-                    <input type='text' id='hyper_opt_alg' name='hyper_opt_alg' palceholder='Input a value for hyper opt alg' className='textInput' />
-                </div>
-                <div className='parameterCard'>
-                    <label forhtml='hyper_max_evals' className='tInLab'>Hyper max evals</label>
-                    <input type='text' id='hyper_max_evals' name='hyper_max_evals' palceholder='Input a value for hyper max evals' className='textInput' />
-                </div>
-            </div>
-       </>   
-        
+
+                <Typography variant='h6'> Validation metric</Typography>
+                <Input type='text' id='validation_metric' name='validation_metric' palceholder='Input a value for validation metric' className='textInput' />    
+            
+                <Typography variant='h6'>Validation Rate</Typography>
+                <Input type='number' id='validation_rate' name='validation_rate' palceholder='Input a value for validation rate' className='textInput' />
+            
+                <Typography variant='h6'>Hyper opt alg</Typography>
+                <Input type='text' id='hyper_opt_alg' name='hyper_opt_alg' palceholder='Input a value for hyper opt alg' className='textInput' />
+            
+                <Typography variant='h6'>Hyper max evals</Typography>
+                <Input type='text' id='hyper_max_evals' name='hyper_max_evals' palceholder='Input a value for hyper max evals' className='textInput' />    
+
+            </Box>
+        </Paper>   
+     </Container>
     );
 }
 
-export default AddForm;
+export default AddForm;

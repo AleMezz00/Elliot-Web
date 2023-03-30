@@ -20,9 +20,6 @@ function Progressbar(props){
             </div>
         </div>
 
-
-
-
      );
 }
 

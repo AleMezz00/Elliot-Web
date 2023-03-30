@@ -1,6 +1,7 @@
 import React,{useState}from 'react';
-import AddForm from './AddForm.js'
+import AddForm from './AddForm.js';
 import '../../styles/recommendation/RecForm.css'
+import { Button, FormLabel, Container, Typography, Box } from '@mui/material';
 
 function RecForm(){
 
@@ -45,34 +46,49 @@ function RecForm(){
     }
 
     return(
-        <div className='recForm'>
-        <h2 className='wrappDescr'>Add one or more recommendation model, and set their parameters</h2>
-        <button id='addModel' className='addModel' onClick={addModel} />
-        <form method='POST' encType="multipart/form-data" className='recFormIn'>
-         <div id='modelsWrapper' className='modelsWrapper'>
-            {forms.map((form,index)=>{
-                return(<div key={index} id={'form'+form.id} className='formCard'>
-                         <p id={form.id} onClick={removeModel} className='removeButt' />
-                          {form.component}
-                       </div>);
-            })}
-         </div>
-         <span id='recSubmitError'></span>
-         <input type='submit' id='recFormSubmit' value='Process with this models' onClick={submitRecForm}/>
-        </form>
 
-        <div id='recLoading' hidden>
-              <div className="lds-ripple"><div></div><div></div></div>
-                <span className='load_info'> Data processing in progress</span>
-            </div> 
+        <Container>
+            <Button type='button' variant='contained' sx={{position:'absolute'}} onClick={addModel}>Add Model</Button>
+            <Typography variant='h4' sx={{textAlign:'right',mb:3}}>Add one or more recommendation model, and set their parameters</Typography>
+            
+            <form method='POST' encType="multipart/form-data" id='recForm'>
+
+                <Box sx={{display:'flex',flexDirection:'row',flexWrap:'wrap'}}>
+                {forms.map((form,index)=>{
+                    return(<div key={index} id={'form'+form.id}>
+                            <p id={form.id} onClick={removeModel} className='removeButt' />
+                            {form.component}
+                        </div>);
+                })}  
+                </Box>
+       
+            <Box sx={{textAlign:'center'}}>
+                 <Button type='submit'onClick={submitRecForm} color='success' variant='contained'
+                                sx={{
+                                    mb:2,
+                                    width:350,
+                                    height:65,
+                                    fontSize:'18px',
+                                    borderRadius:'10px',
+                                    }}>
+                                    Process with this models</Button>
+            </Box>     
+        </form> 
+{/* 
+            <div id='recLoading' hidden>
+               <div className="lds-ripple"><div></div><div></div></div>
+                 <span className='load_info'> Data processing in progress</span>
+             </div> 
                                 
-           <div id='recResult' hidden>
-             <h1 className='completedTit'>Processing completed</h1>
-              <p className='compl_content'>Your dataset has been successfully processed!
-                 <a href='' className="download_link" id="recDownloadDF">Download ZIP</a>
-              </p>
-           </div>
-        </div>
+            <div id='recResult' hidden>
+              <h1 className='completedTit'>Processing completed</h1>
+               <p className='compl_content'>Your dataset has been successfully processed!
+                  <a href='' className="download_link" id="recDownloadDF">Download ZIP</a>
+               </p>
+            </div>
+         </div>
+             */}
+        </Container>
     );
 }
 

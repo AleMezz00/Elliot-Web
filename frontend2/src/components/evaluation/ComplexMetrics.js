@@ -1,198 +1,230 @@
+import { Box, Container, FormGroup, Typography,Input, Checkbox, FormControlLabel, Button, Card, Paper } from '@mui/material';
+import { red } from '@mui/material/colors';
 import React, { useEffect,useState} from 'react';
-import '../../styles/evaluation/ComplexMetrics.css';
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+//import '../../styles/evaluation/ComplexMetrics.css';
 
-function ComplexMetrics(){
+function ComplexMetrics(props){
+
     const defaultFairCheck={
       biasBD:false,
-      biasBR:false,
-      biasBS:false,
-      iMADrank:false,
-      iMASrat:false,
-      uMADrank:false,
-      uMADrat:false,
-      reo:false,
-      rsp:false
-    }
-    const[fairCheck,setFairCheck]=useState(defaultFairCheck);
+      ucnBD:'',
+      icnBD:'',
 
-      
-      const showBetaField=(event)=>{
-        if(event.target.checked){
-          document.getElementById('beta').className='betaInput';
-          document.getElementById('beta').required=true;
-        }else document.getElementById('beta').className='optHidden';
-      }
+      biasBR:false,
+      ucnBDR:'',
+      icnBR:'',
+
+      iMADrank:false,
+      inputMADrank:'',
+
+      iMADrat:false,
+      inputMADrat:'',
+
+      uMADrank:false,
+      inputuMADrank:'',
+
+      uMADrat:false,
+      inputuMADrat:'',
+
+      reo:false,
+      inputReo:'',
+
+      rsp:false,
+      inputRSP:'',
+    }
+
+    const evForm = props.dataEv;
+    const setEvForm = props.setDataEv;
+
+    
+    const[fairCheck,setFairCheck]=useState(defaultFairCheck);
+    const [fairBool, setFairBool]= useState(false)
+    
+    const [dsc, setDsc] = useState(false);
+    const [biasBR, setBiasBr] = useState(false);
+
+    props.dataEv.fairness = fairCheck;
+
   
     return(
-      <>
-      <h2 className='Compl_tit'>Complex Metrics</h2>
-        <div className='optionWrapper'>
-        <div className='card_Compl'>
-          <h1 className='metricTit_compl' >Accuracy</h1>
-            <div className='optShow'>
-                
-                    <FormGroup>
-                      
-                      <FormControlLabel control={<Checkbox/>} label="DSC" className='check_label_Compl'/>
-                      <FormControlLabel control={<Checkbox/>} label="Extended F1" className='check_label_Compl'/>
-                     
-                    </FormGroup>
-              </div>
-        </div>
+        <Container>
+          <Typography className='titSect'variant='h2'
+                            sx={{
+                                textAlign:'center',
+                                my:4,
+                                color:'rgb(0, 179, 255)',
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>Complex Metrics</Typography>
 
-        <div className='card_Compl'>
-          <h1 className='metricTit_compl'>Bias</h1>
-            <div className='optShow'>
+          <Box className='optionWrapper'> 
+          <Box className='metricOption'>
+              <Typography className='metricTit'variant='h5'
+                            sx={{
+                                my:2,
+                                color:'rgb(0, 179, 255)',
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>Accuracy</Typography>
+              <Box className='optShow'>
+                <FormControlLabel control={<Checkbox/>} label="DSC" className='checkComplex' onClick={()=>setDsc(!dsc)} 
+                checked={evForm.dsc} onChange={(event)=>setEvForm({...evForm, dsc:event.target.checked})} />
+                {dsc ? 
+                  (<Input type="number" name="beta" id="beta" placeholder="input a value for beta" className='optHidden' 
+                  value={evForm.dscInput} onChange={(event)=>setEvForm({...evForm,dscInput:event.target.value})} required/>)
+                  :
+                  (null)}
+                <FormControlLabel control={<Checkbox/>} label="Extended F1" className='checkComplex' sx={{ml:4}}
+                  checked={evForm.extF1} onChange={(event)=>setEvForm({...evForm, extF1:event.target.checked})} /> 
+              </Box>
+          </Box>
+
+          <Box className='metricOption'>
+              <Typography className='metricTit'variant='h5'
+                            sx={{
+                                my:2,
+                                color:'rgb(0, 179, 255)',
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>Bias</Typography>
+
+              <FormGroup sx={{display:'flex',flexDirection:'row'}}>
+                <FormControlLabel control={<Checkbox/>} label="Extended PopREO" className='checkComplex' sx={{width:'210px'}}
+                checked={evForm.extpopREO} onChange={(event)=>setEvForm({...evForm, extpopREO:event.target.checked})} />
+                <FormControlLabel control={<Checkbox/>} label="Extended PopRSP" className='checkComplex' sx={{width:'210px'}}
+                checked={evForm.extpopRSP} onChange={(event)=>setEvForm({...evForm, extpopRSP:event.target.checked})}/>
+              </FormGroup>
+                
+          </Box>
+
+          <Box id='fairSection' className='metricOption'>
+            <Typography id='fairTit' className='metricTit'variant='h5'
+                            sx={{
+                                my:2,
+                                color:'rgb(0, 179, 255)',
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>Fairness</Typography>
+
+            <Button type='button' variant='contained' onClick={()=> setFairBool(!fairBool)} 
+            sx={{mb:3, bgcolor:'rgb(0, 179, 255)'}}>Open / Close Fairness section</Button>
+
+            {fairBool ? (
+              <Paper elevation={15}>
+                    <Box className='clusterOpt' sx={{ml:3}}>
+                      <FormControlLabel control={<Checkbox/>} label="Bias Disparity BD" className='clustCheck' sx={{mt:1}}
+                      checked={fairCheck.biasBD} onChange={(event)=>setFairCheck({...fairCheck, biasBD:event.target.checked})}/>
+
+                      <FormGroup className='optClusShow'>
+                        <Typography className='userClustering'>User clustering name and file</Typography>
+                        <Input type="text" placeholder="user clustering name" required={fairCheck.biasBD?true:false} value={fairCheck.ucnBD} onChange={(event)=>setFairCheck({...fairCheck, ucnBD:event.target.value})}/>
+                        <Input type="file" sx={{my:2}} required={fairCheck.biasBD?true:false}/>
+
+                        <Typography className='userClustering'>Item clustering name and file</Typography>
+                        <Input type="text" placeholder="item clustering name" required={fairCheck.biasBD?true:false} value={fairCheck.icnBD} onChange={(event)=>setFairCheck({...fairCheck, icnBD:event.target.value})}/>
+                        <Input type="file" className='cluFile' sx={{my:1}} required={fairCheck.biasBD?true:false}/>
+                      </FormGroup>
+                    </Box>
+
+                    <Box className='clusterOpt' sx={{ml:3}}>              
+                      <FormControlLabel control={<Checkbox/>} label="Bias Disparity BR" className='clustCheck'
+                      checked={fairCheck.biasBR} onChange={(event)=>setFairCheck({...fairCheck, biasBR:event.target.checked})}/>
+                      
+                      <FormGroup className='optClusShow'>
+                        <Typography className='userClustering'>User clustering name and file</Typography>
+                        <Input type="text" placeholder="user clustering name" required={fairCheck.biasBR?true:false} value={fairCheck.ucnBR} onChange={(event)=>setFairCheck({...fairCheck, ucnBR:event.target.value})}/>
+                        <Input type="file"className='cluFile' sx={{my:2}} required={fairCheck.biasBR?true:false}  />
+
+                        <Typography className='itemClustering'>Item clustering name and file</Typography>
+                        <Input type="text" placeholder="item clustering name" required={fairCheck.biasBR?true:false} value={fairCheck.icnBR} onChange={(event)=>setFairCheck({...fairCheck, icnBR:event.target.value})}/>
+                        <Input type="file"  className='cluFile' sx={{my:2}} required={fairCheck.biasBR?true:false} />
+                      </FormGroup>
+                        
+                    </Box>
+
+                    <Box className='clusterOpt2' sx={{ml:3}}>
+                    <FormControlLabel control={<Checkbox/>} label="Item Dranking " className='clustCheck'
+                      checked={fairCheck.iMADrank} onChange={(event)=>setFairCheck({...fairCheck, iMADrank:event.target.checked})}/>
               
-                  <FormGroup>
-                      
-                      <FormControlLabel control={<Checkbox/>} label="Extended PopREO" className='check_label_Compl'/>
-                      <FormControlLabel control={<Checkbox/>} label="Extended PopRSP" className='check_label_Compl'/>
-                     
-                    </FormGroup>
-            </div>
-        </div>
+                      <FormGroup className='optClusShow'>
+                        <Typography className='descClustering'>Clustering name and file</Typography>
+                        <Input type="text" placeholder="clustering name" required={fairCheck.iMADrank?true:false} value={fairCheck.inputMADrank} onChange={(event)=>setFairCheck({...fairCheck, inputMADrank:event.target.value})}/>
+                        <Input type="file" sx={{my:2}} required={fairCheck.iMADrank?true:false}/>
+                      </FormGroup>
+                    </Box>
 
-        <div id='fairSection' className='card_Compl'>
-            <h2 id='fairTit' className='metricTit_compl'>Fairness</h2>
-            <p id='screenChange' className='fairClosed' onClick={(event)=>{if(event.target.className==='fairClosed'){
-                                event.target.className='fairOpened';
-                                document.getElementById('complNovelty').style='display:none';
-                                document.getElementById('fairSection').className='metricOptionOpened';
-                                document.getElementById('fairOpt').className='fairOptShow';
-                                document.getElementById('fairTit').style='display:none';
-                                }else {
-                                  event.target.className='fairClosed';
-                                  document.getElementById('fairSection').className='metricOption';
-                                  document.getElementById('complNovelty').style='display:block';
-                                  document.getElementById('fairOpt').className='fairOptHide';
-                                  document.getElementById('fairTit').style='display:block';
-                                }}}/>
-        </ div>
-            <div id='fairOpt' className='fairOptHide'>
-                <div className='clusterOpt'>
-                      <FormControlLabel control={<Checkbox/>} label="BiasDisparityBD" className='check_label' 
-                      onChange={(event)=>setFairCheck({...fairCheck, biasBD:event.target.checked})}/>
+                    <Box className='clusterOpt2' sx={{ml:3}}>
+                      <FormControlLabel control={<Checkbox/>} label="Item MA Drating " className='clustCheck'
+                      checked={fairCheck.iMADrat} onChange={(event)=>setFairCheck({...fairCheck, iMADrat:event.target.checked})}/>
+               
+                      <FormGroup className='optClusShow'>
+                        <Typography className='descClustering'>Clustering name and file</Typography>
+                        <Input type="text" placeholder="clustering name"  required={fairCheck.iMADrat?true:false} value={fairCheck.inputMADrat} onChange={(event)=>setFairCheck({...fairCheck, inputMADrat:event.target.value})}/>
+                        <Input type="file" sx={{my:2}} required={fairCheck.iMADrat?true:false}/>
+                      </FormGroup>
+                    </Box>
 
-                   <div className='optClusShow'>
-                     <span className='userClustering'>User clustering name and file</span>
-                     <input type="text" name="user_clustering_name_BD" placeholder="user clustering name" id="ucn_BD" className='cluName' required={fairCheck.biasBD?true:false}/>
-                     <input type="file" name="user_clustering_file_BD"  id="ucf_BD" className='cluFile' required={fairCheck.biasBD?true:false}></input><br/>
+                    <Box className='clusterOpt2' sx={{ml:3}}>
+                      <FormControlLabel control={<Checkbox/>} label="User MA Dranking " className='clustCheck'
+                      checked={fairCheck.uMADrank} onChange={(event)=>setFairCheck({...fairCheck, uMADrank:event.target.checked})}/>
+               
+                      <FormGroup className='optClusShow'>
+                        <Typography className='descClustering'>Clustering name and file</Typography>
+                        <Input type="text"  placeholder="clustering name" required={fairCheck.uMADrank?true:false} value={fairCheck.inputuMADrank} onChange={(event)=>setFairCheck({...fairCheck, inputuMADrank:event.target.value})}/>
+                        <Input type="file" sx={{my:2}} required={fairCheck.uMADrank?true:false}/>
+                      </FormGroup>
+                    </Box>
 
-                     <span className='userClustering'>Item clustering name and file</span>
-                     <input type="text" name="item_clustering_name_BD" placeholder="item clustering name" id="icn_BD" className='cluName' required={fairCheck.biasBD?true:false}/>
-                     <input type="file" name="item_clustering_file_BD"  id="icf_BD" className='cluFile' required={fairCheck.biasBD?true:false}></input>
-                   </div>
-                </div>
+                    <Box className='clusterOpt2' sx={{ml:3}}>
+                      <FormControlLabel control={<Checkbox/>} label="User MA Drating " className='clustCheck'
+                      checked={fairCheck.uMADrat} onChange={(event)=>setFairCheck({...fairCheck, uMADrat:event.target.checked})}/>
+              
+                      <FormGroup className='optClusShow'>
+                        <Typography className='descClustering'>Clustering name and file</Typography>
+                        <Input type="text" placeholder="clustering name" required={fairCheck.uMADrat?true:false} value={fairCheck.inputuMADrat} onChange={(event)=>setFairCheck({...fairCheck, inputuMADrat:event.target.value})}/>
+                        <Input type="file" sx={{my:2}} required={fairCheck.uMADrat?true:false}/>
+                      </FormGroup>
+                    </Box>
 
-                <div className='clusterOpt'>
-                  <FormControlLabel control={<Checkbox/>} label="BiasDisparityBR" className='check_label'  
-                  onChange={(event)=>setFairCheck({...fairCheck, biasBR:event.target.checked})}/>
+                    <Box className='clusterOpt2' sx={{ml:3}}>
+                    <FormControlLabel control={<Checkbox/>} label="REO " className='clustCheck'
+                      checked={fairCheck.reo} onChange={(event)=>setFairCheck({...fairCheck, reo:event.target.checked})}/>
+               
+                      <FormGroup className='optClusShow'>
+                        <Typography className='descClustering'>Clustering name and file</Typography>
+                        <Input type="text" placeholder="clustering name" required={fairCheck.reo?true:false} value={fairCheck.inputReo} onChange={(event)=>setFairCheck({...fairCheck, inputReo:event.target.value})}/>
+                        <Input type="file" sx={{my:2}} required={fairCheck.reo?true:false}/>
+                      </FormGroup>
+                    </Box>
 
-                  <div className='optClusShow'>
-                     <span className='userClustering'>User clustering name and file</span>
-                     <input type="text" name="user_clustering_name_BR" placeholder="user clustering name" id="ucn_BR" className='cluName' required={fairCheck.biasBR?true:false}/>
-                     <input type="file" name="user_clustering_file_BR"  id="ucf_BR" className='cluFile' required={fairCheck.biasBR?true:false}></input><br/>
+                    <Box className='clusterOpt2' sx={{ml:3}}>
+                      <FormControlLabel control={<Checkbox/>} label="RSP" className='clustCheck'
+                      checked={fairCheck.rsp} onChange={(event)=>setFairCheck({...fairCheck, rsp:event.target.checked})}/>
+               
+                      <FormGroup className='optClusShow'>
+                        <Typography className='descClustering'>Clustering name and file</Typography>
+                        <Input type="text"  placeholder="clustering name" required={fairCheck.rsp?true:false} value={fairCheck.inputRSP} onChange={(event)=>setFairCheck({...fairCheck, inputRSP:event.target.value})}/>
+                        <Input type="file" sx={{mb:2,mt:1}} required={fairCheck.rsp?true:false}/>
+                      </FormGroup>
+                    </Box>
 
-                     <span className='itemClustering'>Item clustering name and file</span>
-                     <input type="text" name="item_clustering_name_BR" placeholder="item clustering name" id="icn_BR" className='cluName' required={fairCheck.biasBR?true:false}/>
-                     <input type="file" name="item_clustering_file_BR"  id="icf_BR" className='cluFile' required={fairCheck.biasBR?true:false}></input>
-                   </div>
-                </div>
+              </Paper>
+            ):(null)}
+          </Box>
 
-                <div className='clusterOpt'>
-                    <FormControlLabel control={<Checkbox/>} label="BiasDisparityBS" className='check_label'  
-                       onChange={(event)=>setFairCheck({...fairCheck, biasBS:event.target.checked})}/>
-                   
-                   <div className='optClusShow'>
-                     <span className='userClustering'>User clustering name and file</span>
-                     <input type="text" name="user_clustering_name_BS" placeholder="user clustering name" id="ucn_BS" className='cluName' required={fairCheck.biasBS?true:false}/>
-                     <input type="file" name="user_clustering_file_BS"  id="ucf_BS" className='cluFile' required={fairCheck.biasBS?true:false}></input><br/>
+        <Box id='complNovelty' className='metricOption'>
+            <Typography className='metricTit'variant='h5'
+                            sx={{
+                                my:2,
+                                color:'rgb(0, 179, 255)',
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>Novelty</Typography>
+            <FormGroup className='optShow' sx={{display:'flex',flexDirection:'row'}}>
+                <FormControlLabel control={<Checkbox/>} label="Extended EFD" className='checkComplex' sx={{width:'180px'}}
+                checked={evForm.extEFD} onChange={(event)=>setEvForm({...evForm, extEFD:event.target.checked})}/>
+                <FormControlLabel control={<Checkbox/>} label="Extended EPC" className='checkComplex' sx={{width:'180px'}}
+                checked={evForm.extEPC} onChange={(event)=>setEvForm({...evForm, extEPC:event.target.checked})}/>
+            </FormGroup>
+        </Box>
 
-                     <span className='itemClustering'>Item clustering name and file</span>
-                     <input type="text" name="item_clustering_name_BS" placeholder="item clustering name" id="icn_BS" className='cluName' required={fairCheck.biasBS?true:false}/>
-                     <input type="file" name="item_clustering_file_BS"  id="icf_BS" className='cluFile' required={fairCheck.biasBS?true:false}></input>
-                   </div>
-                </div>
-
-                <div className='clusterOpt2'>
-                <FormControlLabel control={<Checkbox/>} label="Item MA Dranking" className='check_label'  
-                       onChange={(event)=>setFairCheck({...fairCheck, iMADrank:event.target.checked})}/>
-                   
-                 <div className='optClusShow'>
-                     <span className='descClustering'>Clustering name and file</span>
-                     <input type="text" name="clustering_name_iMADranking" placeholder="clustering name"  id="cn_iMADranking" className='cluName' required={fairCheck.iMADrank?true:false}/>
-                     <input type="file" name="clustering_file_iMADranking"  id="cf_iMADranking" className='cluFile' required={fairCheck.iMADrank?true:false}/>
-                   </div>
-                </div>
-
-                <div className='clusterOpt2'>
-                <FormControlLabel control={<Checkbox/>} label="Item MA Dranking" className='check_label'  
-                      onChange={(event)=>setFairCheck({...fairCheck, iMADrat:event.target.checked})}/>
-                 <div className='optClusShow'>
-                     <span className='descClustering'>Clustering name and file</span>
-                     <input type="text" name="clustering_name_iMADrating" placeholder="clustering name"  id="cn_iMADrating" className='cluName' required={fairCheck.iMADrat?true:false}/>
-                     <input type="file" name="clustering_file_iMADrating"  id="cf_iMADrating" className='cluFile' required={fairCheck.iMADrat?true:false}/>
-                   </div>
-                </div>
-
-                <div className='clusterOpt2'>
-                <FormControlLabel control={<Checkbox/>} label="User MA Dranking" className='check_label'  
-                    onChange={(event)=>setFairCheck({...fairCheck, uMADrank:event.target.checked})}/>
-                 <div className='optClusShow'>
-                     <span className='descClustering'>Clustering name and file</span>
-                     <input type="text" name="clustering_name_uMADranking" placeholder="clustering name"  id="cn_uMADranking" className='cluName' required={fairCheck.uMADrank?true:false}/>
-                     <input type="file" name="clustering_file_uMADranking"  id="cf_uMADranking" className='cluFile' required={fairCheck.uMADrank?true:false}/>
-                   </div>
-                </div>
-
-                <div className='clusterOpt2'>
-                <FormControlLabel control={<Checkbox/>} label="User MA Drating" className='check_label'  
-                   onChange={(event)=>setFairCheck({...fairCheck, uMADrat:event.target.checked})}/>
-                   
-                  <div className='optClusShow'>
-                     <span className='descClustering'>Clustering name and file</span>
-                     <input type="text" name="clustering_name_uMADrating" placeholder="clustering name" id="cn_uMADrating" className='cluName' required={fairCheck.uMADrat?true:false}/>
-                     <input type="file" name="clustering_file_uMADrating"  id="cf_uMADrating" className='cluFile' required={fairCheck.uMADrat?true:false}/>
-                   </div>
-                </div>
-
-                <div className='clusterOpt2'>
-                <FormControlLabel control={<Checkbox/>} label="REO" className='check_label'  
-                        onChange={(event)=>setFairCheck({...fairCheck, reo:event.target.checked})}/>
-                 
-                <div className='optClusShow'>
-                     <span className='descClustering'>Clustering name and file</span>
-                     <input type="text" name="clustering_name_REO" placeholder="clustering name"  id="cn_REO" className='cluName' required={fairCheck.reo?true:false}/>
-                     <input type="file" name="clustering_file_REO" id="cf_REO" className='cluFile' required={fairCheck.reo?true:false}/>
-                   </div>
-                </div>
-
-                <div className='clusterOpt2'>
-                <FormControlLabel control={<Checkbox/>} label="RSP" className='check_label'  
-                      onChange={(event)=>setFairCheck({...fairCheck, rsp:event.target.checked})}/>
-                  
-                  <div className='optClusShow'>
-                     <span className='descClustering'>Clustering name and file</span>
-                     <input type="text" name="clustering_name_RSP" placeholder="clustering name"  id="cn_RSP" className='cluName' required={fairCheck.rsp?true:false}/>
-                     <input type="file" name="clustering_file_RSP" id="cf_RSP" className='cluFile' required={fairCheck.rsp?true:false}/>
-                   </div>
-                </div>
-            
-        </div>
-        <div className='card_Compl'>
-            <h1 className='metricTit_compl'>Novelty</h1>
-            <div className='optShow'>
-              <FormGroup>
-                      
-                <FormControlLabel control={<Checkbox/>} label="Extended EFD" className='check_label'/>
-                <FormControlLabel control={<Checkbox/>} label="Extended EPC" className='check_label'/>
-                
-              </FormGroup></div>
-        </div>
-      </div>
-      </>
+      </Box>
+    </Container>
     );
 }
 

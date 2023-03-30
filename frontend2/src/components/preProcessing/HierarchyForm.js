@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Container,Box, FormLabel, FormGroup, Input,Button } from '@mui/material';
+import { Container,Box, FormLabel, FormGroup, Input,Button, Typography, ButtonGroup } from '@mui/material';
 import Form from './Form.js';
 import Progressbar from '../Progressbar';
 
@@ -30,26 +30,51 @@ function HierarchyForm(props){
        }
 
     return(
-        <Container>
+        <Container  sx={{mt:5}}>
             <form action="" method="POST" encType="multipart/form-data" id="form_data">
               <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} hidden/>
                  {props.step===0 &&
-                <Box>
+                <Box sx={{textAlign:'center'}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
-                    <FormGroup>
-                        <FormLabel>Random Seed</FormLabel>
-                        <Input placeholder="Set a random seed "  required sx={{ mb: 1, fontSize: 'var(--joy-fontSize-sm)' }} />
-                        <FormLabel>Input files of a root folder (in .zip) for a hierarchy strategy</FormLabel>
-                        <Input type='file'name="dataset_folder" id="dataset_folder" className="hierFile" accept=".zip" required/>
-                
-                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button>
-                        
+                    <FormGroup sx={{alignItems:'center'}}>
+                    <Typography variant='h3'
+                            sx={{
+                                textAlign:'center',
+                                color:'rgb(0, 179, 255)',
+                                mt:8, mb:5,
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>
+                            Random Seed</Typography>
 
-                        <Button type= 'submit' onClick={hierarchySubmit}>Pre-process with hierarchy strategy</Button> 
+                        <Input placeholder="Set a random seed "  required sx={{ mb: 1, fontSize: 'var(--joy-fontSize-sm)' }} />
+                        <Typography variant='h5' sx={{my:5}}>Input files of a root folder <strong>(in .zip)</strong> for a hierarchy strategy</Typography>
+                        <Input type='file'name="dataset_folder" id="dataset_folder" className="hierFile" accept=".zip" required/>
+
+                        <ButtonGroup sx={{mt:12}}>
+                        <Button type='button' variant='contained' onClick={change}
+                                    sx={{
+                                        mx:8,
+                                        width:160,
+                                        height:55,
+                                        fontSize:'16px',
+                                        borderRadius:'10px',
+                                        bgcolor:'#ff9800',
+                                        '&:hover':{bgcolor:'#ed6c02'}
+                                        }}> 
+                                        Change strategy</Button> 
+                        <Button type= 'submit' variant='contained' color='success' onClick={hierarchySubmit}
+                          sx={{
+                            width:350,
+                            height:65,
+                            fontSize:'18px',
+                            borderRadius:'10px',
+                            }}>
+                            Pre-process with hierarchy strategy</Button>    
+                        </ButtonGroup>
+                         
 
                     </FormGroup>
                 </Box>
-                
                 }
                    
                 <span id='disclaimerHi'></span>

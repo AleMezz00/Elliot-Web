@@ -2,10 +2,11 @@ import React, {useState, useEffect} from 'react';
 import Progressbar from '../Progressbar.js';
 import '../../styles/preProcessing/DataSetForm.css'
 import Form from './Form.js';
-import { Box, Button, Checkbox, Container, FilledInput, FormControlLabel, FormGroup, FormLabel, Input } from '@mui/material';
+import { Box, Button, ButtonGroup, Checkbox, Container, FilledInput, FormControlLabel, FormGroup, FormLabel, Input, Typography } from '@mui/material';
 import PreFiltering from './PreFiltering.js';
 import TestSplitting from './TestSplitting.js';
 import ValidationSplitting from './ValidationSplitting.js';
+import { blue } from '@mui/material/colors';
 
 
 function DatasetForm(props){
@@ -94,12 +95,14 @@ function DatasetForm(props){
 
  
    //fetch     
-  const datasetSubmit=()=>{
+  const datasetSubmit=(e)=>{
+    e.preventDefault()
     let form=document.getElementById('form_data');
       if(true){
         //document.getElementsByClassName('navButt').style.display='none';
-        fetch("/api/v1/preprocessing-json", {
+        fetch("http://localhost:5000/api/v1/preprocessing-json", {
           method: 'POST',
+          headers: {'Content-Type': 'application/json'},
           body: new FormData(form)
       }).then(res => res.json())
       .then(data => {
@@ -113,111 +116,293 @@ function DatasetForm(props){
     }
 
     return(
-        <Container>
+        <Container sx={{mt:2}}>
             <form action="" method="POST" encType="multipart/form-data" id="form_data">
             <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} readOnly hidden/>
-               {step===0 &&
-                <Box>
+            {step===0 &&
+                <Box sx={{textAlign:'center',mt:6}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
-                    <FormGroup>
-                        <FormLabel>Random Seed</FormLabel>
+                    <FormGroup sx={{alignItems:'center'}}>
+
+                        <Typography variant='h3'
+                            sx={{
+                                textAlign:'center',
+                                  mt:8, mb:5,
+                                color:'rgb(0, 179, 255)',
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>
+                            Random Seed</Typography>
+
                         <Input placeholder="Set a random seed "  required sx={{ mb: 1, fontSize: 'var(--joy-fontSize-sm)' }}
                         value={valueData.seed} onChange={(event)=>setValueData({...valueData, seed:event.target.value})} />
-                        <FormLabel>Dataset Binarization</FormLabel>
-                        <FormControlLabel control={<Checkbox/>} label="Check if you want to binarize the dataset" className='check_label' checked={checkData.binarize} onChange={(event)=>setCheckData({...checkData, binarize:event.target.checked})}/>
-                        
 
-                        <Button className='btt_next_Data' onClick={next}>Next</Button>
-                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
-                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
+                        <Typography variant='h3'
+                            sx={{
+                                textAlign:'center',
+                                color:'rgb(0, 179, 255)',
+                                mt:8, mb:5,
+                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                                }}>
+                            Dataset Binarization</Typography>
 
-                    </FormGroup>
+                        <FormControlLabel control={<Checkbox/>} label="Check if you want to binarize the dataset" checked={checkData.binarize} onChange={(event)=>setCheckData({...checkData, binarize:event.target.checked})}/>
                     
+                        <ButtonGroup size='large' sx={{mt:10}}>
+                        <Button type='button' variant='contained' color='error' onClick={reset}
+                                            sx={{
+                                                mx:8,
+                                                width:160,
+                                                height:55,
+                                                fontSize:'15px',
+                                                borderRadius:'10px'
+                                            }} 
+                                            >Reset input parameters</Button>
+                        <Button type='button' variant='contained' onClick={change}
+                                            sx={{
+                                                mx:8,
+                                                width:160,
+                                                height:55,
+                                                fontSize:'16px',
+                                                borderRadius:'10px',
+                                                bgcolor:'#ff9800',
+                                                '&:hover':{bgcolor:'#ed6c02'}
+                                            }}
+                                            > Change strategy</Button> 
+                        <Button type='button' variant='contained' color='primary' onClick={next}
+                                                sx={{
+                                                    mx:8,
+                                                    width:160,
+                                                    height:55,
+                                                    fontSize:'19px',
+                                                    borderRadius:'10px',
+                                                }}
+                                                >Next</Button>
+                        </ButtonGroup>
+                    </FormGroup>                   
                 </Box> 
                 }
 
 
                 {step===1 &&
-                <Box>
+                <Box sx={{textAlign:'center',mt:2}} >
                     <Progressbar step={props.step} initStyle='twenty%'/>
-                    <FormGroup>
+                    <FormGroup sx={{alignItems:'center'}}>
                         <PreFiltering checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData}/>
-
-                        <Button className='btt_next_Data' onClick={next}>Next</Button>
-                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
-                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
-                        <Button className='btt_prev_Data' onClick={previous}>Previous</Button>
-
-                    </FormGroup>
-                    
+                        <ButtonGroup size='large' sx={{mt:5}}>                      
+                        <Button type='button' variant='contained' color='error' onClick={reset}
+                                            sx={{
+                                                mx:8,
+                                                width:160,
+                                                height:55,
+                                                fontSize:'15px',
+                                                borderRadius:'10px',
+                                            }}
+                                        >Reset input parameters</Button>
+                        <Button type='button' variant='contained' onClick={change}        
+                                            sx={{
+                                            mx:8,
+                                            width:160,
+                                            height:55,
+                                            fontSize:'16px',
+                                            borderRadius:'10px',
+                                            bgcolor:'#ff9800',
+                                            '&:hover':{bgcolor:'#ed6c02'}
+                                            }} 
+                                            > Change strategy</Button> 
+                        <Button type='button' variant='contained' onClick={previous}         
+                                            sx={{
+                                            mx:8,
+                                            width:160,
+                                            height:55,
+                                            fontSize:'18px',
+                                            borderRadius:'10px',
+                                            }}
+                                            >Previous</Button>  
+                        <Button type='button' variant='contained' onClick={next}        
+                                            sx={{
+                                            mx:8,
+                                            width:160,
+                                            height:55,
+                                            fontSize:'19px',
+                                            borderRadius:'10px',
+                                            }}
+                                        >Next</Button>
+                        </ButtonGroup>                      
+                    </FormGroup>                    
                 </Box> 
                 }  
 
                 
                 {step===2 &&
-                <Box>
+                <Box sx={{textAlign:'center',mt:6}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
-                    <FormGroup>
+                    <FormGroup sx={{alignItems:'center'}}>
                         <TestSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
                                 paramData={paramData} setParamData={setParamData} />
-                        <Button className='btt_next_Data' onClick={next}>Next</Button>
-                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
-                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
-                        <Button className='btt_prev_Data' onClick={previous}>Previous</Button>
 
-                    </FormGroup>
-                    
+                        <ButtonGroup sx={{mt:9}} >
+                        <Button type='button' variant='contained' color='error' onClick={reset}
+                                sx={{
+                                    mx:8,
+                                    width:160,
+                                    height:55,
+                                    fontSize:'15px',
+                                    borderRadius:'10px',
+                                }}>
+                                Reset input parameters</Button>
+                        <Button type='button' variant='contained' onClick={change}
+                                sx={{
+                                    mx:8,
+                                    width:160,
+                                    height:55,
+                                    fontSize:'16px',
+                                    borderRadius:'10px',
+                                    bgcolor:'#ff9800',
+                                    '&:hover':{bgcolor:'#ed6c02'}
+                                    }}> 
+                                    Change strategy</Button> 
+                        <Button type='button' variant='contained' onClick={previous}
+                                 sx={{
+                                    mx:8,
+                                    width:160,
+                                    height:55,
+                                    fontSize:'18px',
+                                    borderRadius:'10px',
+                                    }}
+                                    >Previous</Button>
+                        <Button type='button' variant='contained' onClick={next}
+                             sx={{
+                                mx:8,
+                                width:160,
+                                height:55,
+                                fontSize:'19px',
+                                borderRadius:'10px',
+                                }}
+                                >Next</Button>
+                        </ButtonGroup>
+                    </FormGroup>                 
                 </Box> 
                 }  
 
-                {step===3 &&
-                <Box>
-                    <Progressbar step={props.step} initStyle='twenty%'/>
-                    <FormGroup>
-                        <ValidationSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
-                                 paramData={paramData} setParamData={setParamData}/>
-                        <Button className='btt_next_Data' onClick={next}>Next</Button>
-                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
-                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
-                        <Button className='btt_prev_Data' onClick={previous}>Previous</Button>
 
-                    </FormGroup>
-                    
+                {step===3 &&
+                <Box sx={{textAlign:'center',mt:6}}>
+                    <Progressbar step={props.step} initStyle='twenty%'/>
+                    <FormGroup sx={{alignItems:'center'}}>
+                        <ValidationSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
+                                paramData={paramData} setParamData={setParamData}/>
+
+                        <ButtonGroup sx={{mt:9}} >
+                            <Button type='button' variant='contained' color='error' onClick={reset}
+                                    sx={{
+                                        mx:8,
+                                        width:160,
+                                        height:55,
+                                        fontSize:'15px',
+                                        borderRadius:'10px',
+                                    }}>
+                                    Reset input parameters</Button>
+                            <Button type='button' variant='contained' onClick={change}
+                                    sx={{
+                                        mx:8,
+                                        width:160,
+                                        height:55,
+                                        fontSize:'16px',
+                                        borderRadius:'10px',
+                                        bgcolor:'#ff9800',
+                                        '&:hover':{bgcolor:'#ed6c02'}
+                                        }}> 
+                                        Change strategy</Button> 
+                            <Button type='button' variant='contained' onClick={previous}
+                                    sx={{
+                                        mx:8,
+                                        width:160,
+                                        height:55,
+                                        fontSize:'18px',
+                                        borderRadius:'10px',
+                                        }}
+                                        >Previous</Button>
+                            <Button type='button' variant='contained' onClick={next}
+                                sx={{
+                                    mx:8,
+                                    width:160,
+                                    height:55,
+                                    fontSize:'19px',
+                                    borderRadius:'10px',
+                                    }}
+                                    >Next</Button>
+                        </ButtonGroup>    
+                    </FormGroup>                
                 </Box> 
                 } 
 
                 {step===4 &&
-                <Box>
+                <Box sx={{textAlign:'center',mt:6}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
-                    <FormGroup>
-
-                        <FormLabel> dataset upload</FormLabel>
-                        
-                        <FormLabel> Upload dataset in <strong>.tvs</strong> format  </FormLabel>
+                    <FormGroup sx={{alignItems:'center'}}>
+                        <Typography variant='h2'
+                           sx={{
+                            textAlign:'center',
+                            color:'rgb(0, 179, 255)',
+                            mt:9, mb:9,
+                            textShadow:".05em .05em 0 rgb(60, 70, 75)"
+                            }}>
+                            Dataset Upload</Typography>                      
+                        <Typography variant='h4' sx={{mb:5}}>Upload dataset in <strong>.tvs</strong> format  </Typography>
                         <Input type='file' name="dataset_file" id="dataset_file"  accept=".tsv" required/>
-          
-                        <Button className='btt_reset_Data' onClick={reset}>Reset input parameters</Button>
-                        <Button className='btt_change_Data' onClick={change}> Change strategy</Button> 
-                        <Button className='btt_prev_Data' onClick={previous}>Previous</Button>
+        
+                        <ButtonGroup sx={{mt:12}} >
+                            <Button type='button' variant='contained' color='error' onClick={reset}
+                                    sx={{
+                                        mx:8,
+                                        width:160,
+                                        height:55,
+                                        fontSize:'15px',
+                                        borderRadius:'10px',
+                                    }}>
+                                    Reset input parameters</Button>
+                            <Button type='button' variant='contained' onClick={change}
+                                    sx={{
+                                        mx:8,
+                                        width:160,
+                                        height:55,
+                                        fontSize:'16px',
+                                        borderRadius:'10px',
+                                        bgcolor:'#ff9800',
+                                        '&:hover':{bgcolor:'#ed6c02'}
+                                        }}> 
+                                        Change strategy</Button> 
+                            <Button type='button' variant='contained' onClick={previous}
+                                    sx={{
+                                        mx:8,
+                                        width:160,
+                                        height:55,
+                                        fontSize:'18px',
+                                        borderRadius:'10px',
+                                        }}
+                                        >Previous</Button>
+                        </ButtonGroup>    
 
-                        <Button type='submit' onClick={datasetSubmit}>Preprocess with Dataset strategy</Button>
-
-                    </FormGroup>
-                    
+                        <Button type='submit' variant='contained' color='success' onClick={datasetSubmit}
+                                    sx={{
+                                        my:8,
+                                        width:350,
+                                        height:65,
+                                        fontSize:'18px',
+                                        borderRadius:'10px',
+                                        }}>
+                                        Preprocess with Dataset strategy</Button>
+                    </FormGroup>          
                 </Box> 
                 } 
 
                 {step===5 &&
                 <Box>
-                    <Form/>
-                    
+                    <Form/>       
                 </Box> 
                 } 
-            </form>
-                
-        
-        </Container>
-        
+            </form>       
+        </Container>        
     )
 
 }

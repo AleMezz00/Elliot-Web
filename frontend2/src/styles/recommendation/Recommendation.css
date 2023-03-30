@@ -1,7 +1,6 @@
 .recFormContainer{
-    margin-top: 2%;
-    width: 99.25vw;
-    height:85vh;
-    display: flex;
-    justify-content: center;
+    margin-top: 1%;
+    width: 100vw;
+    display:flex;
+    flex-direction: row;
 }
