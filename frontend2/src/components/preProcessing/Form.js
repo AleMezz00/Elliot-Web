@@ -20,6 +20,18 @@ function Form(){
     const [fixed, setFixed]= useState(false);
     const [hierarchy, setHierarchy]= useState(false);
 
+    //elenco request.form.get
+    const request = {
+                    test_splitting_strategy,
+                    test_random_subsampling_test_ratio,
+                    test_random_subsampling_folds,
+                    test_splitting_strategy,
+                    validation_splitting_strategy,
+                    test_splitting_strategy,
+                    validation_temporal_hold_out_test_ratio,
+                    validation_random_subsampling_test_ratio
+                    }
+    const [requestState,setRequestState] = useState(request)
 
 
    if(!preStep){

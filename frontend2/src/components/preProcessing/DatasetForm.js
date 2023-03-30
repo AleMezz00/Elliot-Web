@@ -66,12 +66,19 @@ function DatasetForm(props){
   const [checkData,setCheckData]=useState(defaultCheckState);
   const [paramData,setParamData]=useState(defaultParamState);
   const [valueData,setValueData]=useState(defaultValueState);
+  const [fileData, setFileData] = useState("")
   
 
   const step = props.step;
- 
 
 
+  const handleChangeFile = e => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = e => {
+      setFileData(e.target.result);
+    };
+  };
 
   const next=()=>{
       props.setStep(props.step+1);
@@ -97,13 +104,14 @@ function DatasetForm(props){
    //fetch     
   const datasetSubmit=(e)=>{
     e.preventDefault()
-    let form=document.getElementById('form_data');
+    console.log(e.target)
+    //let form=document.getElementById('form_data');
       if(true){
         //document.getElementsByClassName('navButt').style.display='none';
-        fetch("http://localhost:5000/api/v1/preprocessing-json", {
+        fetch("http://127.0.0.1:5000/api/v1/preprocessing-json", {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: new FormData(form)
+          body: JSON.stringify({checkData, paramData, valueData, fileData})
       }).then(res => res.json())
       .then(data => {
           document.getElementById('downloadDF').setAttribute('href', `/api/v1/preprocessing/download/${data}`);
@@ -237,7 +245,7 @@ function DatasetForm(props){
                 <Box sx={{textAlign:'center',mt:6}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
                     <FormGroup sx={{alignItems:'center'}}>
-                        <TestSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
+                        <TestSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData}
                                 paramData={paramData} setParamData={setParamData} />
 
                         <ButtonGroup sx={{mt:9}} >
@@ -349,7 +357,7 @@ function DatasetForm(props){
                             }}>
                             Dataset Upload</Typography>                      
                         <Typography variant='h4' sx={{mb:5}}>Upload dataset in <strong>.tvs</strong> format  </Typography>
-                        <Input type='file' name="dataset_file" id="dataset_file"  accept=".tsv" required/>
+                        <Input type='file' name="dataset_file" id="dataset_file"  accept=".tsv" required onChange={handleChangeFile}/>
         
                         <ButtonGroup sx={{mt:12}} >
                             <Button type='button' variant='contained' color='error' onClick={reset}
