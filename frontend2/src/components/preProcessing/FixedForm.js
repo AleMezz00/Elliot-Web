@@ -13,21 +13,27 @@ function FixedForm(props){
 
   };
 
+ 
+
   const[dataRec, setDataRec]=useState(defaultRec);
   
     const next =()=>{
       props.setStep(props.step +1 );
+      props.setSubmitButton(true);
     }
       
     const previous=()=>{
       props.setStep(props.step-1);
+      props.setSubmitButton(false);
     }
       const reset=()=>{
         setDataRec(false);
         props.setStep(0);
+        props.setSubmitButton(false);
       }
       const change = ()=>{
         props.setStep(5);
+        props.setSubmitButton(false);
       }
       
       const fixedSubmit=()=>{
@@ -52,7 +58,6 @@ function FixedForm(props){
 
     return(
         <Container sx={{mt:4}}>
-            <form action="" method="POST" encType="multipart/form-data" id="form_data">
                 {props.step === 0 &&
                 <Box  sx={{textAlign:'center'}}>
                     <Progressbar step={props.step} initStyle='fifty%'/>
@@ -185,7 +190,7 @@ function FixedForm(props){
                                         }}
                                         >Previous</Button>
                         </ButtonGroup> 
-                        <Button type='submit' onClick={fixedSubmit} variant='contained' color='success'
+                        {/* <Button type='submit' onClick={fixedSubmit} variant='contained' color='success'
                                       sx={{
                                         my:8,
                                         width:350,
@@ -194,7 +199,7 @@ function FixedForm(props){
                                         borderRadius:'10px',
                                         }}>
                                         Preprocess with Fixed strategy</Button> 
-
+ */}
                     </FormGroup>
 
                 </Box>
@@ -215,7 +220,6 @@ function FixedForm(props){
                 {props.step ===5 &&
                     <Form/>
                     }
-            </form>
             
         </Container>
     )
@@ -223,4 +227,4 @@ function FixedForm(props){
    
 
 
-export default FixedForm;
+export default FixedForm;

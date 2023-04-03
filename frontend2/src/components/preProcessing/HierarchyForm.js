@@ -9,6 +9,7 @@ function HierarchyForm(props){
 
   const change = ()=>{
     props.setStep(5);
+    props.setSubmitButton(false);
   }
 
   const hierarchySubmit=()=>{
@@ -31,8 +32,7 @@ function HierarchyForm(props){
 
     return(
         <Container  sx={{mt:5}}>
-            <form action="" method="POST" encType="multipart/form-data" id="form_data">
-              <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} hidden/>
+
                  {props.step===0 &&
                 <Box sx={{textAlign:'center'}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
@@ -62,35 +62,12 @@ function HierarchyForm(props){
                                         '&:hover':{bgcolor:'#ed6c02'}
                                         }}> 
                                         Change strategy</Button> 
-                        <Button type= 'submit' variant='contained' color='success' onClick={hierarchySubmit}
-                          sx={{
-                            width:350,
-                            height:65,
-                            fontSize:'18px',
-                            borderRadius:'10px',
-                            }}>
-                            Pre-process with hierarchy strategy</Button>    
                         </ButtonGroup>
                          
 
                     </FormGroup>
                 </Box>
                 }
-                   
-                <span id='disclaimerHi'></span>
-
-                <div id='loadingHi' hidden>
-                <div className="lds-ripple"></div>
-                    <span className='load_info'> Data preprocessing in progress</span>
-                </div> 
-
-                <div id='resultHi' hidden>
-                <h1 className='completedTitHi'>Preprocessing completed</h1>
-                    <p className='compl_contentHi'>Your dataset has been successfully processed!
-                        <a href='' className="download_linkHi" id="downloadHi">Download ZIP</a>
-                    </p>
-                </div> 
-            </form>
 
             {props.step===5 &&
                 <Form/>
@@ -102,4 +79,4 @@ function HierarchyForm(props){
 
 }
 
-export default HierarchyForm;
+export default HierarchyForm;

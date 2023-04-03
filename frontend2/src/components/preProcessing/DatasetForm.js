@@ -12,14 +12,15 @@ import { blue } from '@mui/material/colors';
 function DatasetForm(props){
 
   const defaultCheckState={
-    binarize:false,
-    glob_thresh:false,
-    us_av:false,
-    us_k:false,
-    it_k:false,
-    iter_k:false, 
-    n_k:false,  
-    cold_us:false,
+    global_threshold:false,
+    user_average:false,
+    user_k_core:false,
+    item_k_core:false,
+    iterative_k_core:false, 
+    n_rounds_k_core:false,  
+    cold_users:false,
+
+
     fixt:false,     
     tho:false,      
     rand_sub:false,
@@ -38,29 +39,18 @@ function DatasetForm(props){
   };
 
   const defaultValueState={
-    seed: 0,
-    glob_thresh_value:'',
-    us_av_value:'',
-    us_k_value:'',
-    it_k_value:'',
-    iter_k_value:'',
-    n_value:'',
-    k_value:'',
-    cold_us_value:'',
-    fixt_value:'',
-    tho_range:'',
-    tho_n_out:'',
-    rand_sub_range:'',
-    rand_sub_n_out:'',
-    rand_sub_folds:'',
-    fixt_value2:'',
-    tho_range2:'',
-    tho_n_out2:'',
-    rand_sub_range2:'',
-    rand_sub_n_out2:'',
-    rand_sub_folds2:'',
-    rand_cross_folds2:'',
-    rand_cross_folds:'',
+    global_threshold_threshold:0,
+    user_k_core_core:0,
+    item_k_core_core:0,
+    iterative_k_core_core:0,
+    n_rounds_k_core_core:0,
+    n_rounds_k_core_rounds:0,
+    cold_users_threshold:0,
+
+    //fixed
+    test_temporal_hold_out_test_ratio:0.0,
+
+    
   };
 
   const [checkData,setCheckData]=useState(defaultCheckState);
@@ -82,51 +72,32 @@ function DatasetForm(props){
 
   const next=()=>{
       props.setStep(props.step+1);
+      if(props.step === 3){
+        props.setSubmitButton(true)
+      }
       
   }
       
   const previous=()=>{
       props.setStep(props.step-1);
+      props.setSubmitButton(false);
   }
 
   const reset=()=>{
       props.setStep(0);
       setParamData(defaultParamState);
-      setCheckData(defaultCheckState)
-      setValueData(defaultValueState)
+      setCheckData(defaultCheckState);
+      setValueData(defaultValueState);
+      props.setSubmitButton(false);
   }
 
   const change = ()=>{
     props.setStep(5);
+    props.setSubmitButton(false);
   }
-
- 
-   //fetch     
-  const datasetSubmit=(e)=>{
-    e.preventDefault()
-    console.log(e.target)
-    //let form=document.getElementById('form_data');
-      if(true){
-        //document.getElementsByClassName('navButt').style.display='none';
-        fetch("http://127.0.0.1:5000/api/v1/preprocessing-json", {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({checkData, paramData, valueData, fileData})
-      }).then(res => res.json())
-      .then(data => {
-          document.getElementById('downloadDF').setAttribute('href', `/api/v1/preprocessing/download/${data}`);
-          document.getElementById('loading').setAttribute('hidden', true);
-          document.getElementById('result').setAttribute('hidden',false);
-      });
-      document.getElementById('loading').setAttribute('hidden', false);
-  
-      }else document.getElementById('disclaimer').innerHTML='Go back and fill required fields';
-    }
 
     return(
         <Container sx={{mt:2}}>
-            <form action="" method="POST" encType="multipart/form-data" id="form_data">
-            <input type='text' name='loading_strategy' id='loading_strategy' value={props.strategy} readOnly hidden/>
             {step===0 &&
                 <Box sx={{textAlign:'center',mt:6}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
@@ -330,7 +301,7 @@ function DatasetForm(props){
                                         borderRadius:'10px',
                                         }}
                                         >Previous</Button>
-                            <Button type='button' variant='contained' onClick={next}
+                            <Button type='button' variant='contained' onClick={next} 
                                 sx={{
                                     mx:8,
                                     width:160,
@@ -356,7 +327,7 @@ function DatasetForm(props){
                             textShadow:".05em .05em 0 rgb(60, 70, 75)"
                             }}>
                             Dataset Upload</Typography>                      
-                        <Typography variant='h4' sx={{mb:5}}>Upload dataset in <strong>.tvs</strong> format  </Typography>
+                        <Typography variant='h4' sx={{mb:5}}>Upload dataset in <strong>.tsv</strong> format  </Typography>
                         <Input type='file' name="dataset_file" id="dataset_file"  accept=".tsv" required onChange={handleChangeFile}/>
         
                         <ButtonGroup sx={{mt:12}} >
@@ -391,7 +362,7 @@ function DatasetForm(props){
                                         >Previous</Button>
                         </ButtonGroup>    
 
-                        <Button type='submit' variant='contained' color='success' onClick={datasetSubmit}
+                        {/* <Button type='submit' variant='contained' color='success' onClick={datasetSubmit}
                                     sx={{
                                         my:8,
                                         width:350,
@@ -399,7 +370,7 @@ function DatasetForm(props){
                                         fontSize:'18px',
                                         borderRadius:'10px',
                                         }}>
-                                        Preprocess with Dataset strategy</Button>
+                                        Preprocess with Dataset strategy</Button> */}
                     </FormGroup>          
                 </Box> 
                 } 
@@ -409,10 +380,10 @@ function DatasetForm(props){
                     <Form/>       
                 </Box> 
                 } 
-            </form>       
+                  
         </Container>        
     )
 
 }
 
-export default DatasetForm;
+export default DatasetForm;
