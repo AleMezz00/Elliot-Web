@@ -11,52 +11,11 @@ import { blue } from '@mui/material/colors';
 
 function DatasetForm(props){
 
-  const defaultCheckState={
-    global_threshold:false,
-    user_average:false,
-    user_k_core:false,
-    item_k_core:false,
-    iterative_k_core:false, 
-    n_rounds_k_core:false,  
-    cold_users:false,
 
-
-    fixt:false,     
-    tho:false,      
-    rand_sub:false,
-    rand_sub_c:false,      
-    rand_cross:false,      
-    fixt2:false, 
-    tho2:false,
-    tho_c2:false, 
-    rand_sub2:false,
-    rand_sub_c2:false, 
-    rand_cross2:false,  
-  };
-  const defaultParamState={
-    tho_c:false,
-    rand_sub_c:false,
-  };
-
-  const defaultValueState={
-    global_threshold_threshold:0,
-    user_k_core_core:0,
-    item_k_core_core:0,
-    iterative_k_core_core:0,
-    n_rounds_k_core_core:0,
-    n_rounds_k_core_rounds:0,
-    cold_users_threshold:0,
-
-    //fixed
-    test_temporal_hold_out_test_ratio:0.0,
-
-    
-  };
-
-  const [checkData,setCheckData]=useState(defaultCheckState);
-  const [paramData,setParamData]=useState(defaultParamState);
-  const [valueData,setValueData]=useState(defaultValueState);
   const [fileData, setFileData] = useState("")
+
+  const requestState = props.requestState;
+  const setRequestState = props.setRequestState;
   
 
   const step = props.step;
@@ -69,6 +28,13 @@ function DatasetForm(props){
       setFileData(e.target.result);
     };
   };
+
+  const handleChange=(e) => {
+    const { name, value } = e.target;
+    console.log(name,value);
+    setRequestState(requestState => ({...requestState, [name]: value}))
+    console.log(requestState)
+  }
 
   const next=()=>{
       props.setStep(props.step+1);
@@ -85,9 +51,7 @@ function DatasetForm(props){
 
   const reset=()=>{
       props.setStep(0);
-      setParamData(defaultParamState);
-      setCheckData(defaultCheckState);
-      setValueData(defaultValueState);
+      setRequestState(props.request)
       props.setSubmitButton(false);
   }
 
@@ -113,7 +77,7 @@ function DatasetForm(props){
                             Random Seed</Typography>
 
                         <Input placeholder="Set a random seed "  required sx={{ mb: 1, fontSize: 'var(--joy-fontSize-sm)' }}
-                        value={valueData.seed} onChange={(event)=>setValueData({...valueData, seed:event.target.value})} />
+                        value={requestState.seed_dataset} onChange={(event)=>setRequestState({...requestState, seed_dataset:event.target.value})} />
 
                         <Typography variant='h3'
                             sx={{
@@ -124,7 +88,8 @@ function DatasetForm(props){
                                 }}>
                             Dataset Binarization</Typography>
 
-                        <FormControlLabel control={<Checkbox/>} label="Check if you want to binarize the dataset" checked={checkData.binarize} onChange={(event)=>setCheckData({...checkData, binarize:event.target.checked})}/>
+                        <FormControlLabel control={<Checkbox/>} label="Check if you want to binarize the dataset" checked={requestState.binarize_block}
+                         onChange={(event)=>setRequestState({...requestState, binarize_block:event.target.checked})}/>
                     
                         <ButtonGroup size='large' sx={{mt:10}}>
                         <Button type='button' variant='contained' color='error' onClick={reset}
@@ -166,7 +131,7 @@ function DatasetForm(props){
                 <Box sx={{textAlign:'center',mt:2}} >
                     <Progressbar step={props.step} initStyle='twenty%'/>
                     <FormGroup sx={{alignItems:'center'}}>
-                        <PreFiltering checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData}/>
+                        <PreFiltering requestState={requestState} setRequestState={setRequestState} />
                         <ButtonGroup size='large' sx={{mt:5}}>                      
                         <Button type='button' variant='contained' color='error' onClick={reset}
                                             sx={{
@@ -216,8 +181,7 @@ function DatasetForm(props){
                 <Box sx={{textAlign:'center',mt:6}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
                     <FormGroup sx={{alignItems:'center'}}>
-                        <TestSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData}
-                                paramData={paramData} setParamData={setParamData} />
+                        <TestSplitting  requestState={requestState} setRequestState={setRequestState} />
 
                         <ButtonGroup sx={{mt:9}} >
                         <Button type='button' variant='contained' color='error' onClick={reset}
@@ -268,8 +232,7 @@ function DatasetForm(props){
                 <Box sx={{textAlign:'center',mt:6}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
                     <FormGroup sx={{alignItems:'center'}}>
-                        <ValidationSplitting checkData={checkData} setCheckData={setCheckData} valueData={valueData} setValueData={setValueData} 
-                                paramData={paramData} setParamData={setParamData}/>
+                        <ValidationSplitting requestState={requestState} setRequestState={setRequestState}  />
 
                         <ButtonGroup sx={{mt:9}} >
                             <Button type='button' variant='contained' color='error' onClick={reset}
@@ -361,16 +324,6 @@ function DatasetForm(props){
                                         }}
                                         >Previous</Button>
                         </ButtonGroup>    
-
-                        {/* <Button type='submit' variant='contained' color='success' onClick={datasetSubmit}
-                                    sx={{
-                                        my:8,
-                                        width:350,
-                                        height:65,
-                                        fontSize:'18px',
-                                        borderRadius:'10px',
-                                        }}>
-                                        Preprocess with Dataset strategy</Button> */}
                     </FormGroup>          
                 </Box> 
                 } 

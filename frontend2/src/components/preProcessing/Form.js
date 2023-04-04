@@ -12,67 +12,92 @@ function Form(){
     const [submitButton,setSubmitButton] = useState(false)
     const[preStep, setPreStep]=useState(false);
 
-    //stretegy
-    const [dataset, setDataset]= useState(false);
-    const [fixed, setFixed]= useState(false);
-    const [hierarchy, setHierarchy]= useState(false);
-
     //elenco request.form.get
     const request = {
 
           loading_strategy:'',
-          
-       /*   //dataset
-          prefiltering_strategy:{
-            global_threshold:false,
-            user_average:false,
-            user_k_core:false,
-            item_k_core:false,
-            iterative_k_core:false, 
-            n_rounds_k_core:false,  
-            cold_users:false,
 
-            global_threshold_threshold:0,
-            user_k_core_core:0,
-            item_k_core_core:0,
-            iterative_k_core_core:0,
-            n_rounds_k_core_core:0,
-            n_rounds_k_core_rounds:0,
-            cold_users_threshold:0,
-          },
+          //dataset- prefiltering
+          seed_dataset:0,
+          binarize_block:false,
+          global_threshold:false,
+          user_average:false,
+          user_k_core:false,
+          item_k_core:false,
+          iterative_k_core:false, 
+          n_rounds_k_core:false,  
+          cold_users:false,
 
-          //global_treshold:false */
-            
-            test_splitting_strategy:'',
-            test_random_subsampling_test_ratio:'',
-            test_random_subsampling_folds:'',
-            test_splitting_strategy:'',
-            validation_splitting_strategy:'',
-            test_splitting_strategy:'',
-            validation_temporal_hold_out_test_ratio:'',
-            validation_random_subsampling_test_ratio:''
+          global_threshold_threshold:0,
+          user_k_core_core:0,
+          item_k_core_core:0,
+          iterative_k_core_core:0,
+          n_rounds_k_core_core:0,
+          n_rounds_k_core_rounds:0,
+          cold_users_threshold:0,
+
+          //dataset-testsplitting
+          test_fixed_timestamp:false,
+          test_temporal_hold_out:false,
+          test_random_subsampling:false,
+          test_random_cross_validation:false,
+
+          test_fixed_timestamp_value:'',
+          test_temporal_hold_out_test_ratio:0,
+          test_temporal_hold_out_leave_n_out:0,
+          test_random_subsampling_test_ratio:0,
+          test_random_cross_validation_folds:0,
+
+          //dataset-validation
+          validation_fixed_timestamp:false,
+          validation_temporal_hold_out:false,
+          validation_random_subsampling:false,
+          validation_random_cross_validation:false,
+
+          validation_fixed_timestamp_value:'',
+          validation_temporal_hold_out_test_ratio:0,
+          validation_temporal_hold_out_leave_n_out:0,
+          validation_random_subsampling_test_ratio:0,
+          validation_random_cross_validation_folds:0,
+
+          //fixed
+          seed_fixed:0,
+          binarize_fixed:false,
+
+          //hierarchy
+          seed_hierarchy:0,
             }
 
     const [requestState,setRequestState] = useState(request);
 
-    const [checkData,setCheckData]=useState([]);
-    const [paramData,setParamData]=useState([]);
-    const [valueData,setValueData]=useState( []);
+    const handleChange=(e) => {
+      const { name, value } = e.target;
+      console.log(name,value);
+      setRequestState(requestState => ({...requestState, [name]: value}))
+      console.log(requestState)
+    }
+
+    const handleChangeHier=(e) => {
+      const { name, value } = e.target;
+      console.log(name,value);
+      setRequestState(requestState => ({...requestState, [name]: value}))
+      console.log(requestState)
+      setSubmitButton(true)
+    }
 
      const FormSubmit=(e)=>{
       e.preventDefault()
       console.log(e.target)
-      //let form=document.getElementById('form_data');
+      console.log(requestState)
         if(true){
-          //document.getElementsByClassName('navButt').style.display='none';
           fetch("http://127.0.0.1:5000/api/v1/preprocessing-json", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({checkData, paramData, valueData})
-        }).then(res => res.json())
-        .then(data => {
-            document.getElementById('downloadDF').setAttribute('href', `/api/v1/preprocessing/download/${data}`);
-        });
+            body: JSON.stringify({requestState})
+        }).then(res => res.json());
+        // .then(data => {
+        //     document.getElementById('downloadDF').setAttribute('href', `/api/v1/preprocessing/download/${data}`);
+        // });
     
         }
       } 
@@ -117,8 +142,8 @@ function Form(){
         <Container sx={{marginBottom:25}}>
 
           <form  action="" method="POST" encType="multipart/form-data" id="form_data">
-            
-          {!dataset && !fixed && !hierarchy ?
+
+          {requestState.loading_strategy === '' ?
                 <Container sx={{my:6}}>
                   
                 <Typography variant='h2'
@@ -139,8 +164,8 @@ function Form(){
 
                 <Box sx={{textAlign:'center'}}>          
                     <ButtonGroup size='large'>
-                      <Button variant='contained' type='button' onClick={()=>setDataset(true)} value={'dataset'}
-                       onChange={(event)=>setRequestState({...requestState, loading_strategy:event.target.value})} 
+                      <Button variant='contained' type='button' name='loading_strategy' value='dataset'
+                       onClick={handleChange} 
                           sx={{
                             mx:8,
                             width:200,
@@ -149,8 +174,8 @@ function Form(){
                             borderRadius:'10px'
                           }} 
                           > Dataset</Button>
-                      <Button variant='contained' type='button' value={'fixed'} onClick={()=>setFixed(true)}
-                        onChange={(event)=>setRequestState({...requestState, loading_strategy:event.target.value})} 
+                      <Button variant='contained' type='button' name='loading_strategy' value='fixed' 
+                        onClick={handleChange} 
                           sx={{
                             mx:8,
                             width:200,
@@ -159,8 +184,8 @@ function Form(){
                             borderRadius:'10px'
                           }}
                           > Fixed</Button>
-                      <Button variant='contained' type='button' value={'hierarchy'} onChange={(event)=>setRequestState({...requestState, loading_strategy:event.target.value})} 
-                      onClick={()=>{setHierarchy(true); setSubmitButton(true)}}
+                      <Button variant='contained' type='button' name='loading_strategy' value='hierarchy' 
+                      onClick={handleChangeHier}
                           sx={{
                             mx:8,
                             width:200,
@@ -173,20 +198,20 @@ function Form(){
                 </Box>
                 </Container>
                :null}
-               {dataset && !fixed && !hierarchy ? 
-                 <DatasetForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton} setRequestState={setRequestState}/>
+               {requestState.loading_strategy === 'dataset' ? 
+                 <DatasetForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton} request={request} setRequestState={setRequestState} requestState={requestState}/>
                  :null}
-               {!dataset && fixed && !hierarchy ?
-                <FixedForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton}/> 
+               {requestState.loading_strategy === 'fixed' ?
+                <FixedForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton} request={request} setRequestState={setRequestState} requestState={requestState}/> 
                 :null}
-              {!dataset && !fixed && hierarchy ?
-                <HierarchyForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton}/>
+              {requestState.loading_strategy === 'hierarchy'  ?
+                <HierarchyForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton} request={request} setRequestState={setRequestState} requestState={requestState}/>
               :null}
           </form>
 
           {submitButton ?
           <Box sx={{textAlign:'center'}}>
-            <Button type='submit' variant='contained' color='success' value='Process the Strategy' onSubmit={FormSubmit}
+            <Button type='submit' variant='contained' color='success' value='Process the Strategy' onClick={FormSubmit}
             sx={{
             my:8,
             width:350,

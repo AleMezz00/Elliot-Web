@@ -7,15 +7,8 @@ import { Container, Button, Input, FormGroup, Box, Checkbox,FormControlLabel, Fo
 
 function FixedForm(props){
 
-  const defaultRec={
-    seed: 0,
-    binarize: false
-
-  };
-
- 
-
-  const[dataRec, setDataRec]=useState(defaultRec);
+    const requestState = props.requestState;
+   const setRequestState = props.setRequestState;
   
     const next =()=>{
       props.setStep(props.step +1 );
@@ -27,7 +20,7 @@ function FixedForm(props){
       props.setSubmitButton(false);
     }
       const reset=()=>{
-        setDataRec(false);
+        setRequestState(props.request)
         props.setStep(0);
         props.setSubmitButton(false);
       }
@@ -35,25 +28,6 @@ function FixedForm(props){
         props.setStep(5);
         props.setSubmitButton(false);
       }
-      
-      const fixedSubmit=()=>{
-          let form=document.getElementById('form_data');
-             if(form.checkValidity()){
-               document.getElementsByClassName('navButt').style.display='none';
-               fetch('/api/v1/preprocessing-json', {
-                 method: 'POST',
-                 body: new FormData(form)
-             }).then(res => res.json())
-             .then(data => {
-                 document.getElementById('downloadFix').setAttribute('href', `/api/v1/preprocessing/download/${data}`);
-                 document.getElementById('loadingFix').setAttribute('hidden', true);
-                 document.getElementById('resultFix').setAttribute('hidden',false);
-             });
-             document.getElementById('loadingFix').setAttribute('hidden', false);
-         
-             }else 
-             document.getElementById('disclaimerFix').innerHTML='Go back and fill required fields';
-           }
 
 
     return(
@@ -72,7 +46,7 @@ function FixedForm(props){
                             Random Seed</Typography>
 
                         <Input placeholder="Set a random seed "  required sx={{ mb: 1, fontSize: 'var(--joy-fontSize-sm)' }}
-                        value={dataRec.seed} onChange={(event)=>setDataRec({...dataRec, seed:event.target.value})} />
+                        value={requestState.seed_fixed} onChange={(event)=>setRequestState({...requestState, seed_fixed:event.target.value})} />
 
                            <Typography variant='h3'
                             sx={{
@@ -84,7 +58,7 @@ function FixedForm(props){
                             Dataset Binarization</Typography>
 
                         <FormControlLabel control={<Checkbox/>} label="Check if you want to binarize the dataset" className='check_label' 
-                          checked={dataRec.binarize} onChange={(event)=>setDataRec({...dataRec, binarize:event.target.checked})}/>
+                          checked={requestState.binarize_fixed} onChange={(event)=>setRequestState({...requestState, binarize_fixed:event.target.checked})}/>
                         
                         
                         <ButtonGroup size='large' sx={{mt:10}}>

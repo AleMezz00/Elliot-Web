@@ -5,17 +5,15 @@ import { Box, Checkbox, Container, FilledInput, FormControlLabel, FormGroup, For
 
 function PreFiltering(props){
 
-    const[checkGlobal, setcheckGlobal] = useState(false);
+   const requestState = props.requestState;
+   const setRequestState = props.setRequestState;
+
+   const[checkGlobal, setcheckGlobal] = useState(false);
     const[checkUserK, setUserK] = useState(false);
     const[checkItemK, setItemK] = useState(false);
     const[checkIterativeK, setIterativeK] = useState(false);
     const[checkNround, setNround] = useState(false);
     const[checkCold, setCold] = useState(false);
-    
-    const checkForm=props.checkData;
-    const setCheckForm=props.setCheckData;
-    const valueForm=props.valueData;
-    const setValueForm=props.setValueData;
 
     return(
       <Container>
@@ -31,26 +29,26 @@ function PreFiltering(props){
 
          <Box sx={{mt:1}}>
             <FormGroup sx={{alignItems:'center'}}>
-               <FormControlLabel label="Global Threshold" control={<Checkbox/>} checked={checkForm.glob_tresh}  onClick={()=>setcheckGlobal(!checkGlobal)}
-               onChange={(event)=>{setCheckForm({...checkForm,glob_thresh:event.target.checked})}}/>
+               <FormControlLabel label="Global Threshold" control={<Checkbox/>} checked={requestState.global_treshold}  onClick={()=>setcheckGlobal(!checkGlobal)}
+               onChange={(event)=>{setRequestState({...requestState,global_threshold:event.target.checked})}}/>
                {checkGlobal ? (
                <FormControlLabel label="  Input a value of a Global Threshold" control={<Input type="number" className='inputNumber' size="small"/>}
-               value={valueForm.glob_tresh_value} onChange={(event)=>{setValueForm({...valueForm,glob_thresh_value:event.target.value})}}/>
+               value={requestState.global_threshold_treshold} onChange={(event)=>{setRequestState({...requestState,global_threshold_treshold:event.target.value})}}/>
                ): (<></>)}     
             </FormGroup>
          </Box>
 
          <Box sx={{textAlign:'center', mt:1}}>   
-            <FormControlLabel  label="User Average" control={<Checkbox/>} checked={checkForm.us_av} onChange={(event)=>{setCheckForm({...checkForm,us_av:event.target.checked})}}/>           
+            <FormControlLabel  label="User Average" control={<Checkbox/>} checked={requestState.user_average} onChange={(event)=>{setRequestState({...requestState,user_average:event.target.checked})}}/>           
          </Box>
 
          <Box sx={{mt:1}}>  
             <FormGroup sx={{alignItems:'center'}}>
-               <FormControlLabel label="User K-Core" control={<Checkbox/>} checked={checkForm.us_k}  
-               onChange={(event)=>{setCheckForm({...checkForm,us_k:event.target.checked})}} onClick={()=>setUserK(!checkUserK)}/>
+               <FormControlLabel label="User K-Core" control={<Checkbox/>} checked={requestState.user_k_core}  
+               onChange={(event)=>{setRequestState({...requestState,user_k_core:event.target.checked})}} onClick={()=>setUserK(!checkUserK)}/>
                {checkUserK ? (
                <FormControlLabel label=" Input a value of Core " control={<Input type="number" className='inputNumber' size="small"/>}
-               value={valueForm.us_k_value} onChange={(event)=>{setValueForm({...valueForm,us_k_value:event.target.value})}}/>
+               value={requestState.user_k_core_core} onChange={(event)=>{setRequestState({...requestState,user_k_core_core:event.target.value})}}/>
                ): (<></>)}     
             </FormGroup>        
          </Box>
@@ -58,10 +56,10 @@ function PreFiltering(props){
          <Box sx={{mt:1}}>
             <FormGroup sx={{alignItems:'center'}}>
                <FormControlLabel label=" Item K-Core" control={<Checkbox/>}  onClick={()=>setItemK(!checkItemK)}
-               checked={checkForm.it_k} onChange={(event)=>{setCheckForm({...checkForm,it_k:event.target.checked})}} />
+               checked={requestState.item_k_core} onChange={(event)=>{setRequestState({...requestState,item_k_core:event.target.checked})}} />
                 {checkItemK ? (
                 <FormControlLabel label="  Input a value of Core" control={<Input type="number" className='inputNumber' size="small"/>}
-                value={valueForm.it_k_value} onChange={(event)=>{setValueForm({...valueForm,it_k_value:event.target.value})}} />
+                value={requestState.item_k_core_core} onChange={(event)=>{setRequestState({...requestState,item_k_core_core:event.target.value})}} />
                 ): (<></>)}     
             </FormGroup>
          </Box>
@@ -69,24 +67,24 @@ function PreFiltering(props){
          <Box sx={{mt:1}}>
             <FormGroup sx={{alignItems:'center'}}>
                <FormControlLabel label=" Iterative K-Core" control={<Checkbox/>}  onClick={()=>setIterativeK(!checkIterativeK)}
-               checked={checkForm.iter_k} onChange={(event)=>{setCheckForm({...checkForm,iter_k:event.target.checked})}}/>
+               checked={requestState.iterative_k_core} onChange={(event)=>{setRequestState({...requestState,iterative_k_core:event.target.checked})}}/>
                {checkIterativeK ? (
                <FormControlLabel label="  Input a value of Core" control={<Input type="number" className='inputNumber' size="small"/>}
-               value={valueForm.iter_k_value} onChange={(event)=>{setValueForm({...valueForm,iter_k_value:event.target.value})}}/>
+               value={requestState.iterative_k_core_core} onChange={(event)=>{setRequestState({...requestState,iterative_k_core_core:event.target.value})}}/>
                ): (<></>)}     
             </FormGroup>
          </Box>
 
          <Box sx={{mt:1}}>
             <FormGroup sx={{alignItems:'center'}}>
-               <FormControlLabel label=" N round K-core" control={<Checkbox/>} checked={checkForm.n_k}   onClick={()=>setNround(!checkNround)}
-               onChange={(event)=>{setCheckForm({...checkForm,n_k:event.target.checked})}}/>
+               <FormControlLabel label=" N round K-core" control={<Checkbox/>} checked={requestState.n_rounds_k_core}   onClick={()=>setNround(!checkNround)}
+               onChange={(event)=>{setRequestState({...requestState,n_rounds_k_core:event.target.checked})}}/>
                {checkNround ? (
                   <FormGroup>
                      <FormControlLabel label="  Input a value of a core" control={<Input type="number" className='inputNumber' size="small"/>}
-                     value={valueForm.k_value} onChange={(event)=>{setValueForm({...valueForm,k_value:event.target.value})}}/>
+                     value={requestState.n_rounds_k_core_core} onChange={(event)=>{setRequestState({...requestState,n_rounds_k_core_core:event.target.value})}}/>
                      <FormControlLabel label="  Input a value of a round" control={<Input type="number" className='inputNumber' size="small"/>}
-                     value={valueForm.n_value} onChange={(event)=>{setValueForm({...valueForm,n_value:event.target.value})}}/>  
+                     value={requestState.n_rounds_k_core_rounds} onChange={(event)=>{setRequestState({...requestState,n_rounds_k_core_rounds:event.target.value})}}/>  
                   </FormGroup>
                   ): (<></>)}     
             </FormGroup>
@@ -95,10 +93,10 @@ function PreFiltering(props){
          <Box sx={{mt:1}}>
             <FormGroup sx={{alignItems:'center'}}>
                <FormControlLabel label=" Cold User" control={<Checkbox/>} onClick={()=>setCold(!checkCold)}
-               checked={checkForm.cold_us} onChange={(event)=>{setCheckForm({...checkForm,cold_us:event.target.checked})}}/>
+               checked={requestState.cold_users} onChange={(event)=>{setRequestState({...requestState,cold_users:event.target.checked})}}/>
                {checkCold ? (
                <FormControlLabel label=" Input a value of threshold for cold user" control={<Input type="number" className='inputNumber' size="small"/>}
-               value={valueForm.cold_us_value} onChange={(event)=>{setValueForm({...valueForm,cold_us_value:event.target.value})}}/>
+               value={requestState.cold_users_threshold} onChange={(event)=>{setRequestState({...requestState,cold_users_threshold:event.target.value})}}/>
                ): (<></>)}     
             </FormGroup>
          </Box>

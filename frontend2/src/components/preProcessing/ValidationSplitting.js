@@ -9,12 +9,8 @@ function ValidationSplitting(props){
     const[checkRandomSubSampling, setRandomSubSampling] = useState(false);
     const[checkRandomCross, setRandomCross] = useState(false);
 
-    const checkForm=props.checkData;
-    const setCheckForm=props.setCheckData;
-    const valueForm=props.valueData;
-    const setValueForm=props.setValueData;
-    const paramForm=props.paramData;
-    const setParamForm=props.setParamData;
+    const requestState= props.requestState;
+    const setRequestState = props.setRequestState;
     
     
 
@@ -32,10 +28,10 @@ function ValidationSplitting(props){
          <Box sx={{mt:2}}>
             <FormGroup sx={{alignItems:'center'}}>
                <FormControlLabel label="Fixed Timestamp" control={<Checkbox/>} onClick={()=>setTime(!checkTime)}
-               checked={checkForm.fixt2} onChange={(event)=>setCheckForm({...checkForm,fixt2:event.target.checked})}/>
+               checked={requestState.validation_fixed_timestamp} onChange={(event)=>setRequestState({...requestState,validation_fixed_timestamp:event.target.checked})}/>
                {checkTime ? (
                <FormControlLabel label="Input timestamp in UNIX fromat or type the string best" control={<Input type="number" className='inputNumber' size="small"/>}
-               value={valueForm.fixt_value2} onChange={(event)=>setValueForm({...valueForm,fixt_value2:event.target.value})}/>
+               value={requestState.validation_fixed_timestamp_value} onChange={(event)=>setRequestState({...requestState,validation_fixed_timestamp_value:event.target.value})}/>
                ): (<></>)}     
             </FormGroup>
          </Box>
@@ -43,13 +39,13 @@ function ValidationSplitting(props){
          <Box sx={{mt:2}}>
             <FormGroup sx={{alignItems:'center'}}>
                <FormControlLabel label="Temporal Hold-Out" control={<Checkbox/>} onClick={()=>setTemporal(!checkTemporal)}
-               checked={checkForm.tho2} onChange={(event)=>setCheckForm({...checkForm, tho2:event.target.checked})}/>
+               checked={requestState.validation_temporal_hold_out} onChange={(event)=>setRequestState({...requestState, validation_temporal_hold_out:event.target.checked})}/>
                {checkTemporal ? (
                   <FormGroup>
                      <FormControlLabel label="Input a value for leave-n-out" control={<Input type="number" className='inputNumber' size="small"/>}
-                     value={valueForm.tho_n_out2} onChange={(event)=>setValueForm({...valueForm,tho_n_out2:event.target.value})}/>
+                     value={requestState.validation_temporal_hold_out_test_ratio} onChange={(event)=>setRequestState({...requestState,validation_temporal_hold_out_test_ratio:event.target.value})}/>
                      <FormControlLabel label="Input a value for test ratio" control={<Input type="number" className='inputNumber' size="small"/>}
-                     value={valueForm.tho_range2} onChange={(event)=>setValueForm({...valueForm,tho_range2:event.target.value})} />  
+                     value={requestState.validation_temporal_hold_out_leave_n_out} onChange={(event)=>setRequestState({...requestState,validation_temporal_hold_out_leave_n_out:event.target.value})} />  
                   </FormGroup> ): (<></>)}     
             </FormGroup>
          </Box>
@@ -57,10 +53,10 @@ function ValidationSplitting(props){
          <Box sx={{mt:2}}>
             <FormGroup sx={{alignItems:'center'}}>
                <FormControlLabel label="Random SubSampling" control={<Checkbox/>} onClick={()=>setRandomSubSampling(!checkRandomSubSampling)}
-               checked={checkForm.rand_sub2} onChange={(event)=>setCheckForm({...checkForm, rand_sub2:event.target.checked})}/>
+               checked={requestState.validation_random_subsampling} onChange={(event)=>setRequestState({...requestState, validation_random_subsampling:event.target.checked})}/>
                {checkRandomSubSampling ? (
                <FormControlLabel label="Input a value test ratio" control={<Input type="number" className='inputNumber' size="small"/>}
-               value={valueForm.rand_sub_range2} onChange={(event)=>setValueForm({...valueForm,rand_sub_range2:event.target.value})}/>
+               value={requestState.validation_random_subsampling_test_ratio} onChange={(event)=>setRequestState({...requestState,validation_random_subsampling_test_ratio:event.target.value})}/>
                ): (<></>)}     
             </FormGroup>
          </Box>
@@ -68,10 +64,10 @@ function ValidationSplitting(props){
          <Box sx={{mt:2}}>
             <FormGroup sx={{alignItems:'center'}}>
                <FormControlLabel label="Random Cross Validation" control={<Checkbox/>} onClick={()=>setRandomCross(!checkRandomCross)}
-               checked={checkForm.rand_cross2} onChange={(event)=>setCheckForm({...checkForm, rand_cross2:event.target.checked})}/>
+               checked={requestState.validation_random_cross_validation} onChange={(event)=>setRequestState({...requestState, validation_random_cross_validation:event.target.checked})}/>
                {checkRandomCross ? (
                <FormControlLabel label="Input a value for the folds" control={<Input type="number" className='inputNumber' size="small"/>}
-               value={valueForm.rand_cross_folds2} onChange={(event)=>setValueForm({...valueForm,rand_cross_folds2:event.target.value})}/>
+               value={requestState.validation_random_cross_validation_folds} onChange={(event)=>setRequestState({...requestState,validation_random_cross_validation_folds:event.target.value})}/>
                ): (<></>)}     
             </FormGroup>
          </Box>

@@ -3,37 +3,22 @@ import { Container,Box, FormLabel, FormGroup, Input,Button, Typography, ButtonGr
 import Form from './Form.js';
 import Progressbar from '../Progressbar';
 
-function HierarchyForm(props){
+function HierarchyForm(props){ 
 
-  const[seed,setSeed]=useState(42);
+  const requestState = props.requestState;
+  const setRequestState = props.setRequestState;
 
   const change = ()=>{
     props.setStep(5);
     props.setSubmitButton(false);
-  }
+    setRequestState(props.request)
 
-  const hierarchySubmit=()=>{
-        let form=document.getElementById('form_data');
-         if(form.checkValidity()){
-           document.getElementsById('hierarchy_button').style.display='none';
-           fetch('/api/v1/preprocessing-json', {
-             method: 'POST',
-             body: new FormData(form)
-         }).then(res => res.json())
-         .then(data => {
-             document.getElementById('downloadHi').setAttribute('href', `/api/v1/preprocessing/download/${data}`);
-             document.getElementById('loadingHi').setAttribute('hidden', true);
-             document.getElementById('resultHi').setAttribute('hidden',false);
-         });
-         document.getElementById('loadingHi').setAttribute('hidden', false);
-     
-         }else document.getElementById('disclaimerHi').innerHTML='Fill required fields';
-       }
+  }
 
     return(
         <Container  sx={{mt:5}}>
 
-                 {props.step===0 &&
+                {props.step===0 &&
                 <Box sx={{textAlign:'center'}}>
                     <Progressbar step={props.step} initStyle='twenty%'/>
                     <FormGroup sx={{alignItems:'center'}}>
@@ -46,7 +31,8 @@ function HierarchyForm(props){
                                 }}>
                             Random Seed</Typography>
 
-                        <Input placeholder="Set a random seed "  required sx={{ mb: 1, fontSize: 'var(--joy-fontSize-sm)' }} />
+                        <Input placeholder="Set a random seed "  required sx={{ mb: 1, fontSize: 'var(--joy-fontSize-sm)' }} 
+                         value={requestState.seed_hierarchy} onChange={(event)=>setRequestState({...requestState, seed_hierarchy:event.target.value})} />
                         <Typography variant='h5' sx={{my:5}}>Input files of a root folder <strong>(in .zip)</strong> for a hierarchy strategy</Typography>
                         <Input type='file'name="dataset_folder" id="dataset_folder" className="hierFile" accept=".zip" required/>
 
@@ -79,4 +65,4 @@ function HierarchyForm(props){
 
 }
 
-export default HierarchyForm;
+export default HierarchyForm;
