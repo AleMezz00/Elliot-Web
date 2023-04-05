@@ -7,13 +7,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(222, 222, 237);
+    background-color:aliceblue;
     border-style: solid;
     border-top: 3px;
     border-left: 0; 
     border-right: 0;
     border-bottom: 0;
-    border-color: grey;
 }
 .frontCredit{
     width: 80%;

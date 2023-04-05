@@ -10,7 +10,7 @@ function Home(){
         <>
          <Navbar preProc='preProc0' rec='rec0' evl='evl0'/>
          <Box className='main_container'>
-            <Typography variant='h3' sx={{textAlign:'center',mt:5,color:'rgb(0, 179, 255)',textShadow:".05em .05em 0 rgb(60, 70, 75)"}} className='homeTit'
+            <Typography variant='h3' sx={{textAlign:'center',mt:5}} className='homeTit'
             >What is Elliot?</Typography>
 
             <Typography variant='h6' sx={{textAlign:'center',mx:30, mt:4,mb:4}} className='introduction'>

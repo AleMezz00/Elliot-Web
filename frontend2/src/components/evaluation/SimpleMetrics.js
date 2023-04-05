@@ -14,8 +14,6 @@ function SimpleMetrics(props){
                             sx={{
                                 textAlign:'center',
                                 my:4,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Simple Metrics</Typography>
 
         <Box sx={{display:'flex', flexWrap:'wrap'}}>
@@ -26,8 +24,6 @@ function SimpleMetrics(props){
                             sx={{
                                 textAlign:'center',
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Accuracy</Typography>
 
               <Box sx={{display:'flex', flexWrap:'wrap',ml:2, mb:2}}>
@@ -52,8 +48,6 @@ function SimpleMetrics(props){
                             sx={{
                                 textAlign:'center',
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Simple Bias</Typography> 
               <Box sx={{display:'flex', flexWrap:'wrap',ml:4, mb:2}}>            
               <FormControlLabel control={<Checkbox/>} label="ACLT" className='check_label' checked={requestState.aclt} onChange={(event)=>setrequestState({...requestState, aclt:event.target.checked})}/>
@@ -71,8 +65,6 @@ function SimpleMetrics(props){
                             sx={{
                                 textAlign:'center',
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Coverage</Typography>
               <Box sx={{display:'flex', flexWrap:'wrap',ml:2, mb:2}}>
               <FormControlLabel control={<Checkbox/>} label="Item Coverage" className='check_label'checked={requestState.itCov} onChange={(event)=>setrequestState({...requestState, itCov:event.target.checked})}/>
@@ -89,8 +81,6 @@ function SimpleMetrics(props){
                             sx={{
                                 textAlign:'center',
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Diversity</Typography>
               <Box sx={{display:'flex', flexWrap:'wrap',ml:5, mb:2}}>
               <FormControlLabel control={<Checkbox/>} label="Gini" className='check_label'checked={requestState.gini} onChange={(event)=>setrequestState({...requestState, gini:event.target.checked})}/>
@@ -106,8 +96,6 @@ function SimpleMetrics(props){
                             sx={{
                                 textAlign:'center',
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Rating</Typography>
                 <Box sx={{display:'flex', flexWrap:'wrap',ml:4, mb:2}}>
                 <FormControlLabel control={<Checkbox/>} label="MAE" className='check_label'checked={requestState.mae} onChange={(event)=>setrequestState({...requestState, mae:event.target.checked})}/>
@@ -124,8 +112,6 @@ function SimpleMetrics(props){
                             sx={{
                                 textAlign:'center',
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Novelty</Typography>
                 <Box sx={{display:'flex', flexWrap:'wrap',ml:11, mb:2}}>
                 <FormControlLabel control={<Checkbox/>} label="EFD" className='check_label'checked={requestState.efd} onChange={(event)=>setrequestState({...requestState, efd:event.target.checked})}/>

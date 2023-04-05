@@ -12,9 +12,7 @@ function Navbar(props){
          <Typography className='title'variant='h2' 
                    sx={{
                     textAlign:'center',
-                    color:'rgb(0, 179, 255)',
                     ml:2,
-                    textShadow:".05em .05em 0 rgb(60, 70, 75)"
                     }}> Elliot Web</Typography></Link>
                     
                     <Divider orientation='vertical'></Divider>

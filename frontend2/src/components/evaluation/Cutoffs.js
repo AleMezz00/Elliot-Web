@@ -41,8 +41,6 @@ function Cutoffs(props){
                             sx={{
                                 textAlign:'center',
                                 mb:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Cutoffs</Typography>
 
             <Typography variant='h5' sx={{textAlign:'center', mb:2}}>Set a number of cutoffs</Typography>

@@ -55,8 +55,6 @@ function ComplexMetrics(props){
                             sx={{
                                 textAlign:'center',
                                 my:4,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Complex Metrics</Typography>
 
           <Box className='optionWrapper'> 
@@ -64,8 +62,6 @@ function ComplexMetrics(props){
               <Typography className='metricTit'variant='h5'
                             sx={{
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Accuracy</Typography>
               <Box className='optShow'>
                 <FormControlLabel control={<Checkbox/>} label="DSC" className='checkComplex' onClick={()=>setDsc(!dsc)} 
@@ -84,8 +80,6 @@ function ComplexMetrics(props){
               <Typography className='metricTit'variant='h5'
                             sx={{
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Bias</Typography>
 
               <FormGroup sx={{display:'flex',flexDirection:'row'}}>
@@ -101,12 +95,10 @@ function ComplexMetrics(props){
             <Typography id='fairTit' className='metricTit'variant='h5'
                             sx={{
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Fairness</Typography>
 
             <Button type='button' variant='contained' onClick={()=> setFairBool(!fairBool)} 
-            sx={{mb:3, bgcolor:'rgb(0, 179, 255)'}}>Open / Close Fairness section</Button>
+            sx={{mb:3}}>Open / Close Fairness section</Button>
 
             {fairBool ? (
               <Paper elevation={15}>
@@ -215,8 +207,6 @@ function ComplexMetrics(props){
             <Typography className='metricTit'variant='h5'
                             sx={{
                                 my:2,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Novelty</Typography>
             <FormGroup className='optShow' sx={{display:'flex',flexDirection:'row'}}>
                 <FormControlLabel control={<Checkbox/>} label="Extended EFD" className='checkComplex' sx={{width:'180px'}}

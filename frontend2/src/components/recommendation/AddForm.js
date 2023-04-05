@@ -75,10 +75,7 @@ function AddForm(props){
             </Box>
 
             <Box sx={{textAlign:'center', mt:1}}>
-                <Typography variant='h5' 
-                        sx={{ color:'rgb(0, 179, 255)',
-                            textShadow:".05em .05em 0 rgb(60, 70, 75)"}}>
-                    <strong>Parameters</strong></Typography>
+                <Typography variant='h5'> <strong>Parameters</strong></Typography>
 
                 {moduleParameters.map((value,index)=>{
                     return(<>

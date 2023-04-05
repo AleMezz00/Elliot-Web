@@ -25,9 +25,7 @@ function HierarchyForm(props){
                     <Typography variant='h3'
                             sx={{
                                 textAlign:'center',
-                                color:'rgb(0, 179, 255)',
                                 mt:8, mb:5,
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>
                             Random Seed</Typography>
 

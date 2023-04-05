@@ -66,7 +66,17 @@ function Form(){
 
           //hierarchy
           seed_hierarchy:0,
+
+          file:undefined
             }
+
+              const handleChangeFile = e => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = e => {
+      setRequestState(requestState => ({...requestState, file:e.target.result}));
+    };
+  };
 
     const [requestState,setRequestState] = useState(request);
 
@@ -93,7 +103,7 @@ function Form(){
           fetch("http://127.0.0.1:5000/api/v1/preprocessing-json", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({requestState})
+            body: JSON.stringify(requestState)
         }).then(res => res.json());
         // .then(data => {
         //     document.getElementById('downloadDF').setAttribute('href', `/api/v1/preprocessing/download/${data}`);
@@ -110,9 +120,7 @@ function Form(){
                    <Typography variant='h2' 
                    sx={{
                     textAlign:'center',
-                    color:'rgb(0, 179, 255)',
                     mt:15, mb:15,
-                    textShadow:".05em .05em 0 rgb(60, 70, 75)"
                     }}
                     >Welcome in Data Pre-processing section
                     </Typography> 
@@ -149,9 +157,7 @@ function Form(){
                 <Typography variant='h2'
                   sx={{
                   textAlign:'center',
-                  color:'rgb(0, 179, 255)',
                   mt:15, mb:10,
-                  textShadow:".05em .05em 0 rgb(60, 70, 75)"
                   }}
                   >Loading strategies</Typography> 
 
@@ -199,7 +205,8 @@ function Form(){
                 </Container>
                :null}
                {requestState.loading_strategy === 'dataset' ? 
-                 <DatasetForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton} request={request} setRequestState={setRequestState} requestState={requestState}/>
+                 <DatasetForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton} request={request} setRequestState={setRequestState} requestState={requestState}
+                 handleChangeFile={handleChangeFile}/>
                  :null}
                {requestState.loading_strategy === 'fixed' ?
                 <FixedForm step={step} setStep={setStep} setPreStep={setPreStep} setSubmitButton={setSubmitButton} request={request} setRequestState={setRequestState} requestState={requestState}/> 

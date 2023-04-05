@@ -21,13 +21,7 @@ function DatasetForm(props){
   const step = props.step;
 
 
-  const handleChangeFile = e => {
-    const fileReader = new FileReader();
-    fileReader.readAsText(e.target.files[0], "UTF-8");
-    fileReader.onload = e => {
-      setFileData(e.target.result);
-    };
-  };
+
 
   const handleChange=(e) => {
     const { name, value } = e.target;
@@ -71,8 +65,6 @@ function DatasetForm(props){
                             sx={{
                                 textAlign:'center',
                                   mt:8, mb:5,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>
                             Random Seed</Typography>
 
@@ -82,9 +74,7 @@ function DatasetForm(props){
                         <Typography variant='h3'
                             sx={{
                                 textAlign:'center',
-                                color:'rgb(0, 179, 255)',
                                 mt:8, mb:5,
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>
                             Dataset Binarization</Typography>
 
@@ -285,13 +275,11 @@ function DatasetForm(props){
                         <Typography variant='h2'
                            sx={{
                             textAlign:'center',
-                            color:'rgb(0, 179, 255)',
                             mt:9, mb:9,
-                            textShadow:".05em .05em 0 rgb(60, 70, 75)"
                             }}>
                             Dataset Upload</Typography>                      
                         <Typography variant='h4' sx={{mb:5}}>Upload dataset in <strong>.tsv</strong> format  </Typography>
-                        <Input type='file' name="dataset_file" id="dataset_file"  accept=".tsv" required onChange={handleChangeFile}/>
+                        <Input type='file' name="dataset_file" id="dataset_file"  accept=".tsv" required onChange={props.handleChangeFile}/>
         
                         <ButtonGroup sx={{mt:12}} >
                             <Button type='button' variant='contained' color='error' onClick={reset}

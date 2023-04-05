@@ -19,9 +19,7 @@ function ValidationSplitting(props){
            <Typography variant='h2'
             sx={{
                textAlign:'center',
-               color:'rgb(0, 179, 255)',
                mt:6, mb:6,
-               textShadow:".05em .05em 0 rgb(60, 70, 75)"
                }}>
                Validation Splitting </Typography>
 

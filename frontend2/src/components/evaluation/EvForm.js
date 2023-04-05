@@ -104,9 +104,7 @@ function EvForm(){
                     <Typography variant='h2' 
                    sx={{
                     textAlign:'center',
-                    color:'rgb(0, 179, 255)',
                     mt:15, mb:15,
-                    textShadow:".05em .05em 0 rgb(60, 70, 75)"
                     }}
                     >Welcome in Evaluation section</Typography>
 
@@ -138,8 +136,6 @@ function EvForm(){
                             sx={{
                                 textAlign:'center',
                                   mt:7, mb:5,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Evaluation</Typography>
                       
                         <Typography variant='h4' sx={{mb:2}} >Input <strong>Train</strong> dataset in <strong>.tsv</strong> format</Typography>
@@ -192,8 +188,6 @@ function EvForm(){
                             sx={{
                                 textAlign:'center',
                                   mt:5, mb:3,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Relevance Treshold</Typography>
                         <Input type="number" id="treshold" name="treshold" value={requestState.rev_tresh} onChange={(event)=>setRequestState({...requestState, rev_tresh:event.target.value})} />
                     
@@ -201,8 +195,6 @@ function EvForm(){
                             sx={{
                                 textAlign:'center',
                                   mt:5, mb:3,
-                                color:'rgb(0, 179, 255)',
-                                textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Top K</Typography>
                         <Input type='number' id='top_k' name='top_k' value={requestState.top_k} onChange={(event)=>setRequestState({...requestState, top_k:event.target.value})} />
                     

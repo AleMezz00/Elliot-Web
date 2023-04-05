@@ -20,9 +20,7 @@ function PreFiltering(props){
             <Typography variant='h2'  
                sx={{
                   textAlign:'center',
-                  color:'rgb(0, 179, 255)',
                   mt:2, mb:3,
-                  textShadow:".05em .05em 0 rgb(60, 70, 75)"
                   }}>
                Pre-filtering
             </Typography>
