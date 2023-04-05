@@ -2,7 +2,10 @@ import { Box, ButtonGroup, Paper, Typography,Button, Input } from '@mui/material
 import React from 'react';
 
 
-function Cutoffs(){
+function Cutoffs(props){
+
+  const requestState= props.requestState;
+  const setRequestState = props.setRequestState;
     
         const cutoffAdd=(event)=>{
             let nCutoffs=document.getElementById('n_k').value;
@@ -45,7 +48,7 @@ function Cutoffs(){
             <Typography variant='h5' sx={{textAlign:'center', mb:2}}>Set a number of cutoffs</Typography>
             <Box sx={{textAlign:'center', mb:3}}>
               <Input type='number' id='n_k' name='n_k' min='1' placeholder='Input number of cutoffs'
-                  className='nInput'/>
+                  className='nInput' value={requestState.cutoffs} onChange={(event)=>setRequestState({...requestState, cutoffs:event.target.value})}/>
             </Box>
 
           

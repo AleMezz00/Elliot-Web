@@ -11,13 +11,13 @@ function EvForm(){
 
     const [evStep,setEvStep]=useState(-1);
     
+    const request = {
+        top_k:0,
+        rev_tresh:0,
+        t_test:false,
+        wilcoxon:false,
 
-    const defaultEv = {
-        
-        tresh:0,
-        topK:0,
-        paired:false,
-        wilico:false,
+        cutoffs:0,
 
         auc:false,
         gauc:false,
@@ -53,21 +53,18 @@ function EvForm(){
         efd:false,
         epc:false,
 
-        dsc:false,
-        dscInput:0,
-        extF1:false,
-        extpopREO:false,
-        extpopRSP:false,
-        extEFD:false,
-        extEPC:false,
+        DSC:false,
+        ExtendedF1:false,
+        ExtendedPopREO:false,
+        ExtendedPopRSP:false,
+        ExtendedEFD:false,
+        ExtendedEPC:false,
 
         fairness:{}
 
-
     }
 
-    const [dataEv, setDataEv]= useState(defaultEv);
-
+    const [requestState, setRequestState] = useState(request)
 
 
     const next =()=>{
@@ -80,30 +77,25 @@ function EvForm(){
 
       const reset=()=>{
         setEvStep(0);
-        setDataEv(defaultEv);
+        setRequestState(request)
 
       }
 
-      const evFormSubmit=()=>{
+      const evFormSubmit=(e)=>{
 
-        const form=document.getElementById('evForm');
-        document.getElementById('evFormSubmit').addEventListener('click', ()=>{
-            if(form.checkValidity()){
-              document.getElementsByClassName('evButton').styley='display:none';
-              fetch('/api/v1/recommendationmodel-json', {
-                method: 'POST',
-                body: new FormData(form)
-            }).then(res => res.json())
-            .then(data => {
-                document.getElementById('evDownloadDF').setAttribute('href', `/api/v1/evaluation/download`);
-                document.getElementById('evLoading').setAttribute('hidden', true);
-                document.getElementById('evResult').setAttribute('hidden',false);
-            });
-            document.getElementById('evLoading').setAttribute('hidden', false);
-        
-            }else document.getElementById('evSubmitError').innerHTML='Go back and fill required fields';
-          })
+        e.preventDefault()
+        console.log(e.target)
+        console.log(requestState)
+
+        if(true){
+            fetch("http://127.0.0.1:5000/api/v1/recommendationmodel-json", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({requestState})
+        }).then(res => res.json())
+    
         }
+    }
 
     return(
         <Container>
@@ -203,7 +195,7 @@ function EvForm(){
                                 color:'rgb(0, 179, 255)',
                                 textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Relevance Treshold</Typography>
-                        <Input type="number" id="treshold" name="treshold" value={dataEv.tresh} onChange={(event)=>setDataEv({...dataEv, tresh:event.target.value})} />
+                        <Input type="number" id="treshold" name="treshold" value={requestState.rev_tresh} onChange={(event)=>setRequestState({...requestState, rev_tresh:event.target.value})} />
                     
                         <Typography variant='h3'
                             sx={{
@@ -212,11 +204,11 @@ function EvForm(){
                                 color:'rgb(0, 179, 255)',
                                 textShadow:".05em .05em 0 rgb(60, 70, 75)"
                                 }}>Top K</Typography>
-                        <Input type='number' id='top_k' name='top_k' value={dataEv.topK} onChange={(event)=>setDataEv({...dataEv, topK:event.target.value})} />
+                        <Input type='number' id='top_k' name='top_k' value={requestState.top_k} onChange={(event)=>setRequestState({...requestState, top_k:event.target.value})} />
                     
                        <FormGroup  sx={{mt:5,alignItems:'center'}}>
-                            <FormControlLabel control={<Checkbox/>} label="Paired Text" checked={dataEv.paired} onChange={(event)=>setDataEv({...dataEv, paired:event.target.checked})}  />
-                            <FormControlLabel sx={{mt:2}} control={<Checkbox/>} label="Wilicoxon Text" checked={dataEv.wilico} onChange={(event)=>setDataEv({...dataEv, wilico:event.target.checked})}  />
+                            <FormControlLabel control={<Checkbox/>} label="Paired Text" checked={requestState.t_test} onChange={(event)=>setRequestState({...requestState, t_test:event.target.checked})}  />
+                            <FormControlLabel sx={{mt:2}} control={<Checkbox/>} label="Wilicoxon Text" checked={requestState.wilcoxon} onChange={(event)=>setRequestState({...requestState, wilcoxon:event.target.checked})}  />
                         </FormGroup> 
 
                         <Box sx={{textAlign:'center',mb:28}}>
@@ -256,7 +248,7 @@ function EvForm(){
                     <Box sx={{mt:5}}>
                         <Progressbar step={evStep} initStyle='twenty%'/>
 
-                        <Cutoffs/>
+                        <Cutoffs requestState={requestState} setRequestState={setRequestState} />
 
                         <Box sx={{textAlign:'center',mb:6}}>
                         <ButtonGroup size='large' sx={{mt:7}}> 
@@ -294,7 +286,7 @@ function EvForm(){
                     <Box sx={{mt:5}}>
                         <Progressbar step={evStep} initStyle='twenty%'/>
 
-                        <SimpleMetrics dataEv={dataEv} setDataEv={setDataEv}/>
+                        <SimpleMetrics requestState={requestState} setRequestState={setRequestState}/>
 
                         <Box sx={{textAlign:'center',mb:13}}>
                         <ButtonGroup size='large' sx={{mt:7}}> 
@@ -333,19 +325,7 @@ function EvForm(){
                     <Box sx={{mt:4}}>
                         <Progressbar step={evStep} initStyle='twenty%'/>
 
-                        <ComplexMetrics dataEv={dataEv} setDataEv={setDataEv}/>
-
-                        {/* <div id='evLoading' hidden>
-                        <div className="lds-ripple"><div></div><div></div></div>
-                            <span className='load_info'> Data processing in progress</span>
-                        </div> 
-                                            
-                        <div id='evResult' hidden>
-                            <h1 className='completedTit'>Processing completed</h1>
-                            <p className='compl_content'>Your dataset has been successfully processed!
-                                <a href='' className="download_link" id="evDownloadDF">Download ZIP</a>
-                            </p>
-                        </div>  */}
+                        <ComplexMetrics requestState={requestState} setRequestState={setRequestState}/>
 
                         <Box sx={{textAlign:'center'}}>
                         <ButtonGroup size='large' sx={{mt:7}}> 

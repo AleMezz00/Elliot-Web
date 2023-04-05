@@ -32,9 +32,8 @@ function ComplexMetrics(props){
       rsp:false,
       inputRSP:'',
     }
+    
 
-    const evForm = props.dataEv;
-    const setEvForm = props.setDataEv;
 
     
     const[fairCheck,setFairCheck]=useState(defaultFairCheck);
@@ -43,7 +42,11 @@ function ComplexMetrics(props){
     const [dsc, setDsc] = useState(false);
     const [biasBR, setBiasBr] = useState(false);
 
-    props.dataEv.fairness = fairCheck;
+
+    const requestState= props.requestState;
+    const setRequestState = props.setRequestState;
+    
+    props.requestState.fairness = fairCheck;
 
   
     return(
@@ -66,14 +69,14 @@ function ComplexMetrics(props){
                                 }}>Accuracy</Typography>
               <Box className='optShow'>
                 <FormControlLabel control={<Checkbox/>} label="DSC" className='checkComplex' onClick={()=>setDsc(!dsc)} 
-                checked={evForm.dsc} onChange={(event)=>setEvForm({...evForm, dsc:event.target.checked})} />
+                checked={requestState.DSC} onChange={(event)=>setRequestState({...requestState, dsc:event.target.checked})} />
                 {dsc ? 
                   (<Input type="number" name="beta" id="beta" placeholder="input a value for beta" className='optHidden' 
-                  value={evForm.dscInput} onChange={(event)=>setEvForm({...evForm,dscInput:event.target.value})} required/>)
+                  value={requestState.dscInput} onChange={(event)=>setRequestState({...requestState,dscInput:event.target.value})} required/>)
                   :
                   (null)}
                 <FormControlLabel control={<Checkbox/>} label="Extended F1" className='checkComplex' sx={{ml:4}}
-                  checked={evForm.extF1} onChange={(event)=>setEvForm({...evForm, extF1:event.target.checked})} /> 
+                  checked={requestState.ExtendedF1} onChange={(event)=>setRequestState({...requestState, ExtendedF1:event.target.checked})} /> 
               </Box>
           </Box>
 
@@ -87,9 +90,9 @@ function ComplexMetrics(props){
 
               <FormGroup sx={{display:'flex',flexDirection:'row'}}>
                 <FormControlLabel control={<Checkbox/>} label="Extended PopREO" className='checkComplex' sx={{width:'210px'}}
-                checked={evForm.extpopREO} onChange={(event)=>setEvForm({...evForm, extpopREO:event.target.checked})} />
+                checked={requestState.ExtendedPopREO} onChange={(event)=>setRequestState({...requestState, ExtendedPopREO:event.target.checked})} />
                 <FormControlLabel control={<Checkbox/>} label="Extended PopRSP" className='checkComplex' sx={{width:'210px'}}
-                checked={evForm.extpopRSP} onChange={(event)=>setEvForm({...evForm, extpopRSP:event.target.checked})}/>
+                checked={requestState.ExtendedPopRSP} onChange={(event)=>setRequestState({...requestState, ExtendedPopRSP:event.target.checked})}/>
               </FormGroup>
                 
           </Box>
@@ -217,9 +220,9 @@ function ComplexMetrics(props){
                                 }}>Novelty</Typography>
             <FormGroup className='optShow' sx={{display:'flex',flexDirection:'row'}}>
                 <FormControlLabel control={<Checkbox/>} label="Extended EFD" className='checkComplex' sx={{width:'180px'}}
-                checked={evForm.extEFD} onChange={(event)=>setEvForm({...evForm, extEFD:event.target.checked})}/>
+                checked={requestState.ExtendedEFD} onChange={(event)=>setRequestState({...requestState, ExtendedEFD:event.target.checked})}/>
                 <FormControlLabel control={<Checkbox/>} label="Extended EPC" className='checkComplex' sx={{width:'180px'}}
-                checked={evForm.extEPC} onChange={(event)=>setEvForm({...evForm, extEPC:event.target.checked})}/>
+                checked={requestState.ExtendedEPC} onChange={(event)=>setRequestState({...requestState, ExtendedEPC:event.target.checked})}/>
             </FormGroup>
         </Box>
 
